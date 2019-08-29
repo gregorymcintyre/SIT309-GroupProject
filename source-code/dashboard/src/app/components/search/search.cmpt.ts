@@ -8,6 +8,7 @@ import {SearchService} from './../../services';
 @Component({
 	selector: 'search',
 	templateUrl: './search.cmpt.html',
+	styleUrls: ['./search.cmpt.scss'],
 	animations: [
 		trigger('toggleState', [
 			state('in', style({height: '*', opacity: 0})),
@@ -36,7 +37,7 @@ import {SearchService} from './../../services';
 export class SearchCmpt implements OnInit {
 	public selectedPrediction: google.maps.places.QueryAutocompletePrediction;
 	public placeSuggestions: google.maps.places.QueryAutocompletePrediction[] = [];
-	public showAdvancedSearch: boolean = false;
+	public showAdvancedSearch: boolean = true;
 
 	autocompleteService: google.maps.places.AutocompleteService;
 
@@ -70,6 +71,7 @@ export class SearchCmpt implements OnInit {
 	updateQuery() {
 		this.searchService.setParams({
 			query: this.selectedPrediction.description,
+			coords: null,
 			placeId: this.selectedPrediction.place_id,
 		});
 	}

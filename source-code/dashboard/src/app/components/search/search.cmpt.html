@@ -10,14 +10,47 @@
 		</mat-autocomplete>
 	</div>
 	<div fxLayoutGap="10px">
-		<button mat-raised-button color="primary" (click)="updateQuery()">
+		<button *ngIf="!showAdvancedSearch" mat-raised-button color="primary" (click)="updateQuery()">
 			<mat-icon>search</mat-icon> Find Park
+		</button>
+		<button mat-raised-button color="warn">
+			<mat-icon>clear</mat-icon> Clear Search
 		</button>
 		<button mat-raised-button color="accent" (click)="showAdvancedSearch = !showAdvancedSearch">
 			Advanced Search <mat-icon>keyboard_arrow_down</mat-icon>
 		</button>
 	</div>
 </div>
-<div [@toggleState] *ngIf="showAdvancedSearch">
-	Oh man we are so advanced now<br><br><br><br>hello
+<div class="advanced-search-box" [@toggleState] *ngIf="showAdvancedSearch" fxLayout="row" fxLayoutGap="20px">
+	<div fxFlex="37%">
+		<label>Search Radius: {{searchRadius.value}} km</label>
+		<mat-slider class="full-width-field" #searchRadius="matSlider" min="1" max="100" step="1" value="10" tickInterval="10"></mat-slider>
+		<mat-form-field class="full-width-field" color="accent">
+			<mat-label>Park Status</mat-label>
+			<mat-select matNativeControl required>
+				<mat-option value="">Any Statuses</mat-option>
+				<mat-option value="unoccupied">Unoccupied</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<div fxFlex="37%">
+		<mat-label>Options:</mat-label>
+		<div>
+			<mat-checkbox [checked]="true">On Street Parks</mat-checkbox>
+		</div>
+     	<div>
+     		<mat-checkbox [checked]="true">Individual Parks</mat-checkbox>
+     	</div>
+     	<div>
+     		<mat-checkbox [checked]="true">Disabled Parks</mat-checkbox>
+     	</div>
+     	<div>
+     		<mat-checkbox [checked]="true">Metered Parks</mat-checkbox>
+     	</div>
+	</div>
+	<div fxFlex="26%">
+		<button mat-raised-button class="mat-button-block" color="primary" (click)="updateQuery()">
+			<mat-icon>search</mat-icon> Find Park
+		</button>
+	</div>
 </div>

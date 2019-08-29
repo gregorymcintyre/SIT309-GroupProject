@@ -27,9 +27,6 @@ export class HeaderCmpt implements OnInit {
 	}
 
 	ngOnInit() {
-		this.searchService.setParams({
-			query: 'Melbourne, Australia',
-		});
 		this.searchService.subscribeToParams((params: SearchParams) => {
 			this.params = params;
 		});

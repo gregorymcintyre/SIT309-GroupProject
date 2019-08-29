@@ -36,3 +36,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-width-field {
    width: 100%;
 }
+
+.mat-button-block {
+	width:100%;
+	
+	& + .mat-button-block {
+		margin-top:10px;
+	}
+}
