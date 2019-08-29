@@ -10,7 +10,7 @@ import {MaterialModule} from './modules/material.module';
 import {AppCmpt} from './app.cmpt';
 import {HeaderCmpt} from './components';
 
-import {DashboardPage, NotFoundPage} from './pages';
+import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
 @NgModule({
 	declarations: [
@@ -18,6 +18,7 @@ import {DashboardPage, NotFoundPage} from './pages';
 		HeaderCmpt,
 		DashboardPage,
 		NotFoundPage,
+		ActivityPage,
 	],
 	imports: [
 		BrowserModule,

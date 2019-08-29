@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {DashboardPage, NotFoundPage} from './pages';
+import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
 
 /*  { path: 'crisis-center', component: CrisisListComponent },
@@ -25,6 +25,11 @@ const routes: Routes = [
 	{
 		path: 'dashboard',
 		component: DashboardPage,
+		pathMatch: 'full',
+	},
+	{
+		path: 'activity',
+		component: ActivityPage,
 		pathMatch: 'full',
 	},
 	{

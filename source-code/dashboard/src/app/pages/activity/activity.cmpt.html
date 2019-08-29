@@ -1,0 +1,34 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>IoT Activity</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<mat-table [dataSource]="activityDataSource" class="mat-elevation-z8">
+			<ng-container matColumnDef="position">
+				<mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{row.position}} </mat-cell>
+			</ng-container>
+
+			<!-- Name Column -->
+			<ng-container matColumnDef="name">
+				<mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+			</ng-container>
+
+			<!-- Weight Column -->
+			<ng-container matColumnDef="weight">
+				<mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{row.weight}} </mat-cell>
+			</ng-container>
+
+			<!-- Symbol Column -->
+			<ng-container matColumnDef="symbol">
+				<mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+				<mat-cell *matCellDef="let row"> {{row.symbol}} </mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="activityColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: activityColumns;"></mat-row>
+		</mat-table>
+	</mat-card-content>
+</mat-card>

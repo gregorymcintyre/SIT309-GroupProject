@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 	selector: 'header',
 	templateUrl: './header.cmpt.html',
 	styleUrls: ['./header.cmpt.scss'],
-	import: [Router],
 })
 
 export class HeaderCmpt implements OnInit {
@@ -15,7 +14,7 @@ export class HeaderCmpt implements OnInit {
 			name: 'Dashboard',
 		},
 		{
-			endpoint: 'iot-activity',
+			endpoint: 'activity',
 			name: 'IoT Activity',
 		},
 	];
