@@ -3,14 +3,14 @@
 		<mat-form-field class="full-width-field" color="accent">
 			<input matInput placeholder="Search for a street, city or place" type="text" (keyup)="updateSuggestions($event.target)" [matAutocomplete]="addressAuto">
 		</mat-form-field>
-		<mat-autocomplete #addressAuto="matAutocomplete">
-			<mat-option *ngFor="let option of placeSuggestions" [value]="option.place_id">
-				{{ option.description }}
+		<mat-autocomplete #addressAuto="matAutocomplete" (optionSelected)="selectPrediction($event)" [displayWith]="displayPrediction">
+			<mat-option *ngFor="let prediction of placeSuggestions" [value]="prediction">
+				{{prediction.description}}
 			</mat-option>
 		</mat-autocomplete>
 	</div>
 	<div fxLayoutGap="10px">
-		<button mat-raised-button color="primary">
+		<button mat-raised-button color="primary" (click)="updateQuery()">
 			<mat-icon>search</mat-icon> Find Park
 		</button>
 		<button mat-raised-button color="accent" (click)="showAdvancedSearch = !showAdvancedSearch">

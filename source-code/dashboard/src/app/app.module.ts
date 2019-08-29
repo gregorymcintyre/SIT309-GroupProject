@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -11,9 +11,7 @@ import {MaterialModule} from './modules/material.module';
 
 import {AppCmpt} from './app.cmpt';
 import {HeaderCmpt, SearchCmpt} from './components';
-
-import {SearchService, GooglePlacesService} from './services';
-
+import {SearchService} from './services';
 import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
 @NgModule({
@@ -27,7 +25,6 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 	],
 	imports: [
 		BrowserModule,
-		HttpClientJsonpModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		MaterialModule,
@@ -39,7 +36,6 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 	],
 	providers: [
 		SearchService,
-		GooglePlacesService
 	],
 	bootstrap: [AppCmpt]
 })
