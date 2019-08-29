@@ -15,7 +15,7 @@ $dark-mode: true;
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $dashboard-primary: mat-palette($mat-indigo);
-$dashboard-accent: mat-palette($mat-pink, A200, A100, A400);
+$dashboard-accent: mat-palette($mat-grey, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $dashboard-warn: mat-palette($mat-red);
@@ -32,3 +32,7 @@ $dashboard-dark-theme: mat-dark-theme($dashboard-primary, $dashboard-accent, $da
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.full-width-field {
+   width: 100%;
+}

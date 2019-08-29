@@ -1,4 +1,7 @@
-mat-card.widget {
-	width: calc(100% - 70px);
-	height: calc(100% - 70px);
+*[fxLayout="row"] + *[fxLayout="row"] {
+	margin-top:20px;
+}
+
+.dashboard {
+	padding:20px;
 }

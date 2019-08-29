@@ -1,29 +1,33 @@
-<mat-grid-list cols="12">
-	<mat-grid-tile colspan="12" rowspan="1">
-		<mat-card class="widget">
-			<mat-card-content>
-				<search></search>
-			</mat-card-content>
-		</mat-card>
-	</mat-grid-tile>
-	<mat-grid-tile colspan="8" rowspan="1">
-		<mat-card class="widget">
-			<mat-card-header>
-				<mat-card-title>Find a Park</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				All in here
-			</mat-card-content>
-		</mat-card>
-	</mat-grid-tile>
-	<mat-grid-tile colspan="4" rowspan="1">
-		<mat-card class="widget">
-			<mat-card-header>
-				<mat-card-title>Current Weather</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				All in here
-			</mat-card-content>
-		</mat-card>
-	</mat-grid-tile>
-</mat-grid-list>
+<div class="dashboard">
+	<div fxLayout="row" fxLayoutGap="20px">
+		<div fxFlex="100%">
+			<mat-card>
+				<mat-card-content>
+					<search></search>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+	<div fxLayout="row" fxLayoutGap="20px">
+		<div fxFlex="66.66%">
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Find a Park</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					All in here
+				</mat-card-content>
+			</mat-card>
+		</div>
+		<div fxFlex="33.33%">
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>Current Weather</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					All in here
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+</div>
