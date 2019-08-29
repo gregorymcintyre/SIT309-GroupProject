@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {SearchService} from './../../services';
+import {SearchParams} from './../../interfaces';
 
 @Component({
 	selector: 'header',
@@ -18,13 +20,19 @@ export class HeaderCmpt implements OnInit {
 			name: 'IoT Activity',
 		},
 	];
+	public params: SearchParams;
 
-	constructor (public router: Router) {
+	constructor (public router: Router, private searchService: SearchService) {
 		
 	}
 
 	ngOnInit() {
-		
+		this.searchService.setParams({
+			query: 'Melbourne, Australia',
+		});
+		this.searchService.subscribeToParams((params: SearchParams) => {
+			this.params = params;
+		});
 	}
 
 	onEndpoint(endpoint: string) {

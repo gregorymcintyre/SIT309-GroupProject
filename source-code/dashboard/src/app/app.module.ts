@@ -8,7 +8,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './modules/material.module';
 
 import {AppCmpt} from './app.cmpt';
-import {HeaderCmpt} from './components';
+import {HeaderCmpt, SearchCmpt} from './components';
+
+import {SearchService} from './services';
 
 import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
@@ -16,6 +18,7 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 	declarations: [
 		AppCmpt,
 		HeaderCmpt,
+		SearchCmpt,
 		DashboardPage,
 		NotFoundPage,
 		ActivityPage,
@@ -29,7 +32,9 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 	exports: [
 		MaterialModule
 	],
-	providers: [],
+	providers: [
+		SearchService
+	],
 	bootstrap: [AppCmpt]
 })
 export class AppModule {}
