@@ -78,7 +78,62 @@ Example Response:
 
 
 ## Parking Data
-talk about shit here
+
+Parking Data will be gathered depending on the lat and lng of the requested parameters. 
+
+The closest 10 locations will be autoaticly selected and added displayed. 
+
+><center>For the Parking Data we will be using the On street parking bay sensors and on street parking bay restriction APIs on the city of melbourne dataset<center>
+
+| Name     | URL        | 
+| ------------- |:-------------:|
+| On Street Parking Bay Sensors   | https://data.melbourne.vic.gov.au/Transport-Movement/On-street-Parking-Bay-Sensors/vh2v-4nfs | 
+| On-street Car Park Bay Restrictions      | https://data.melbourne.vic.gov.au/Transport-Movement/On-street-Car-Park-Bay-Restrictions/ntht-5rk7 | 
+ 
+
+#### *Endpoints*
+
+- parking/bays/:lat/:lng
+
+Description: Retrieves 10 closest parking locations (within 500m) based on the lng and lat of requested parameters. Multiple calls will be made to both APIs. 
+
+Example Response (Of 1 parking bay):
+
+
+```
+{
+    "bayID": "1005",
+    "location": {
+        "latitude": "-37.813104376935705",
+        "longitude": "144.9625311043034"
+    },
+    "status": "Unoccupied",
+    "restrictions": [
+        {
+            "isFree": false,
+            "duration": {"normal": "30","disablity": "60"},
+            "effectiveonph": "0",
+            "time": {"start": "07:30:00","end": "18:30:00"},
+            "days": [1,2,3,4,5,6]
+        },
+        {
+            "isFree": false,
+            "duration": {"normal": "120", "disablity": "240"},
+            "effectiveonph": "0",
+            "time": {"start": "18:30:00","end": "20:30:00"},
+            "days": [1,2,3,4,5,6]
+        },
+        {
+            "isFree": true,
+            "duration": {"normal": "60","disablity": "120"},
+            "effectiveonph": "0",
+            "time": {"start": "07:30:00","end": "18:30:00"},
+            "days": [0]
+        }
+    ]
+}
+
+```
 
 ## IOT Devices
 talk about more shit
