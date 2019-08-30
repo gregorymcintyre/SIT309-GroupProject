@@ -5,8 +5,8 @@
 | ------------- |:-------------:|
 | Tim Tattersal      | Dashboard (Front End) | 
 | Marshal Welgama    | Backend API      | 
-| Mehul Warde | Backend API      | 
-| Greg Macintyre | AWS IOT      | 
+| Mehul Warde | TBA     | 
+| Greg Macintyre | TBA    | 
 
 ## Front End:
 ---
