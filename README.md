@@ -8,7 +8,7 @@
 | Mehul Warde | Backend API      | 
 | Greg Macintyre | AWS IOT      | 
 
-### Front End:
+## Front End:
 ---
 - Angular Js
 - Do not make any changes to code
@@ -28,10 +28,10 @@
 ![alt text](resources/gui-wireframes/Searchbox%20(Advanced%20Search).png)
 
 
-### Back End:
+## Back End:
 ---
 ![alt text](flowchart.jpg)
-#### Weather Data
+## Weather Data
 
 ><center>For the weather data we will be using the darksky.net API since it is very inutuitive<center>
 
@@ -46,12 +46,41 @@ GET https://api.darksky.net/forecast/0123456789abcdef9876543210fedcba/<insert co
 This example used my API key
 ```
 
-> Possible write sample endpoints
+#### *Endpoints*
 
-#### Parking Data
+- /weather/current/:long/:lattitude
+
+Description: Retrieves a weather data for longitude and lattitude in reqested parameters
+
+Example Response:
+
+```
+
+{
+    "latitude": 42.3601,
+    "longitude": -71.0589,
+    "timezone": "America/New_York",
+    "currently": {
+        "time": 1509993277,
+        "summary": "Drizzle",
+        "temperature": 66.1,
+        "apparentTemperature": 66.31,
+        "temperatureHigh": 31.84,
+        "temperatureLow": 28.63,
+        "windSpeed": 5.59,
+    }
+}
+
+```
+
+
+
+
+
+## Parking Data
 talk about shit here
 
-#### IOT Devices
+## IOT Devices
 talk about more shit
 
 
