@@ -48,9 +48,9 @@ This example used my API key
 
 #### *Endpoints*
 
-- /weather/current/:long/:lattitude
+- /weather/current/:lat/:lng
 
-Description: Retrieves a weather data for longitude and lattitude in reqested parameters
+Description: Retrieves a weather data for lattitude and longitude in reqested parameters
 
 Example Response:
 
