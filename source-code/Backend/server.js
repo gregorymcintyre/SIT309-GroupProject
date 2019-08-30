@@ -32,9 +32,9 @@ lng = req.params.lng
             "temperatureLow": weatherData.currently.temperatureLow,
             "windSpeed": weatherData.currently.windSpeed 
         }
-        
+
         res.send(weather)
 });
 
   })
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Listening on port ${port}!`))
