@@ -60,15 +60,12 @@ Example Response:
     "latitude": 42.3601,
     "longitude": -71.0589,
     "timezone": "America/New_York",
-    "currently": {
-        "time": 1509993277,
-        "summary": "Drizzle",
-        "temperature": 66.1,
-        "apparentTemperature": 66.31,
-        "temperatureHigh": 31.84,
-        "temperatureLow": 28.63,
-        "windSpeed": 5.59,
-    }
+    "summary": "Drizzle",
+    "temperature": 66.1,
+    "apparentTemperature": 66.31,
+    "temperatureHigh": 31.84,
+    "temperatureLow": 28.63,
+    "windSpeed": 5.59
 }
 
 ```
