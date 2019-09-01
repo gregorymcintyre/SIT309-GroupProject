@@ -1,3 +1,4 @@
 import {SearchService} from './search.service';
+import {WeatherService} from './weather.service';
 
-export {SearchService};
+export {SearchService, WeatherService};
