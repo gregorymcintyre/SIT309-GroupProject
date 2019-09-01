@@ -1,0 +1,17 @@
+<mat-card>
+	<mat-card-header>
+		<mat-card-title>Find a Park</mat-card-title>
+		<mat-button-toggle-group appearance="legacy" #resultsView="matButtonToggleGroup">
+			<mat-button-toggle checked="true" value="map" aria-label="Map View">
+				<mat-icon>near_me</mat-icon> Map View
+			</mat-button-toggle>
+			<mat-button-toggle value="list" aria-label="List View">
+				<mat-icon>view_headline</mat-icon> List View
+			</mat-button-toggle>
+		</mat-button-toggle-group>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="example-selected-value">Selected value: {{resultsView.value}}</div>
+		
+	</mat-card-content>
+</mat-card>

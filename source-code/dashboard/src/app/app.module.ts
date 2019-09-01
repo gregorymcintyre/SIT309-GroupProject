@@ -10,7 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './modules/material.module';
 
 import {AppCmpt} from './app.cmpt';
-import {HeaderCmpt, SearchCmpt, WeatherCmpt} from './components';
+import {HeaderCmpt, SearchCmpt, WeatherCmpt, ResultsCmpt} from './components';
 import {SearchService, WeatherService} from './services';
 import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
@@ -19,6 +19,7 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 		AppCmpt,
 		HeaderCmpt,
 		SearchCmpt,
+		ResultsCmpt,
 		WeatherCmpt,
 		DashboardPage,
 		NotFoundPage,
