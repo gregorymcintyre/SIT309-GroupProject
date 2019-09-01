@@ -21,7 +21,8 @@ export class WeatherCmpt implements OnInit {
 
 			// Get weather
 			if (params.coords != null) {
-				this.weatherService.getCurrentWeather(params.coords.lat, params.coords.lng);
+				console.log(params);
+				this.weatherService.getCurrentWeather(params.coords.lat(), params.coords.lng());
 			}
 		});
 	}
