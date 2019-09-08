@@ -8,17 +8,15 @@ var weatherData = {}
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.get('/weather/current/:lat/:lng', function (req, res) {
+app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current weather information for lat and long
 
 lat = req.params.lat
 lng = req.params.lng
 
     request.get(`https://api.darksky.net/forecast/2863177e8cb7681e2d21b3595b571989/${lat},${lng}`, function(err, response, body) {
-
     weatherData = JSON.parse(body) //had to parse to a json, this part did my head in
     //Creating Json object
     var weather = {}
- 
         //make weatherData json within the HTTP GET
         weather = 
         {
@@ -37,4 +35,21 @@ lng = req.params.lng
 });
 
   })
+app.get('/parking/:lat/:lng', function (req, res) {
+  
+  lat = req.params.lat
+  lng = req.params.lng
+  var result = {}
+  request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?lat=${lat}&lon=${lng}`, function(err, response, body) {
+   result = JSON.parse(body)
+
+   res.send(result[0].bay_id)
+   
+  })
+
+
+  
+
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}!`))
