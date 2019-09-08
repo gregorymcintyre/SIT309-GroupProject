@@ -43,7 +43,15 @@ app.get('/parking/:lat/:lng', function (req, res) {
   request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?lat=${lat}&lon=${lng}`, function(err, response, body) {
    result = JSON.parse(body)
 
-   res.send(result[0].bay_id)
+   //res.send(result[0].bay_id) this is how you access the json
+   result = {
+    bay_id: result[0].bay_id,
+    location: { lattitude: result[0].location.latitude,
+      longitude: result[0].location.longitude
+    },
+    status: result[0].status
+   }
+   res.send(result)
    
   })
 
