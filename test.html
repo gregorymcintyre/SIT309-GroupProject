@@ -1,0 +1,25 @@
+What's your favorite country?
+
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags16.css" />
+<div class="f16">
+  <input type="search" id="country" class="form-control" placeholder="What's your favorite country?" />
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.16.4"></script>
+<script>
+(function() {
+  var placesAutocomplete = places({
+    appId: 'plGI8SIJ5OLS',
+    apiKey: '20ea90c0351d046d208ea8d64e2329fd',
+    container: document.querySelector('#country'),
+    templates: {
+      suggestion: function(suggestion) {
+        return '<i class="flag ' + suggestion.countryCode + '"></i> ' +
+          suggestion.highlight.name;
+      }
+    }
+  }).configure({
+    type: 'country',
+  });
+})();
+</script>
