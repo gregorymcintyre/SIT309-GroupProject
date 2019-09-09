@@ -5,7 +5,7 @@
 | ------------- |:-------------:|
 | Tim Tattersal      | Dashboard (Front End) | 
 | Marshal Welgama    | Backend API      | 
-| Mehul Warde | TBA     | 
+| Mehul Warde | Maps     | 
 | Greg Macintyre | Dashboard (MISC)    | 
 
 ## Front End:
