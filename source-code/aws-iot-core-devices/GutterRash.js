@@ -201,11 +201,14 @@ let timeout=null;
 	*/
 	
 	function publishData () {
+		
+		console.log('Publish initiated');
+		
 		//parking1.publish('',
 			//'{
 			//"bayID": "1005",
 			//"status": "Unoccupied",
-			//"restriction_ duration": 30
+			//"restriction_duration": 30
 			//}'
 		//	'parking1 test'
 		//)
@@ -241,14 +244,71 @@ let timeout=null;
 		console.log ('parking10 message published');
 		
 	}
+
+	function queryBays(bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10){
+		console.log('Bay queries intiaited');
+
+		
+		//fetch(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$1761`)		//hardcoded for testing
+		
+		console.log('querying Bay ID ' + bay1);
+		console.log('querying Bay ID ' + bay2);
+		console.log('querying Bay ID ' + bay3);
+		console.log('querying Bay ID ' + bay4);
+		console.log('querying Bay ID ' + bay5);
+		console.log('querying Bay ID ' + bay6);
+		console.log('querying Bay ID ' + bay7);
+		console.log('querying Bay ID ' + bay8);
+		console.log('querying Bay ID ' + bay9);
+		console.log('querying Bay ID ' + bay10);
+		
+	}
 	
 	setInterval(
 		function(){
 			console.log('timer test 1min');
 			if (connectCount == 10){
-				console.log('publish initiated');
-				//publishData();
+				queryBays(101, 102, 103, 104, 105, 106, 107, 108, 109, 110);
+				publishData();
 				//connectCount = 0;
 			}
 		}, 60000
 	);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
