@@ -80,72 +80,93 @@ const parking10 = awsIot.device({
 	host:		'a3e9smmo06mnl8-ats.iot.us-east-1.amazonaws.com'
 });
 
-console.log('Conected to: '); 
+//console.log('Conected to: '); 
 
 var connectCount = 0;	//to simplify connections in the future
 
 parking1.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking1');
+	//console.log ('parking1');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking2.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking2');
+	//console.log ('parking2');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking3.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking3');
+	//console.log ('parking3');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking4.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking4');
+	//console.log ('parking4');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking5.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking5');
+	//console.log ('parking5');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking6.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking6');
+	//console.log ('parking6');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking7.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking7');
+	//console.log ('parking7');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking8.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking8');
+	//console.log ('parking8');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking9.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking9');
+	//console.log ('parking9');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
 parking10.on('connect', function() {
 	isConnected=true;
 	connectCount++;
-	console.log ('parking10');
+	//console.log ('parking10');
+	console.log(connectCount + ' of 10 devices connected');
 });
 
+parking1.on('error', (msg) => {
+	console.log('error: ' + msg);
+});
+
+ //store is device is connected or not 
+let isConnected=false; 
+
+//store a reference carSimulation method callback 
+let timeout=null; 
+
 //console.log(connectCount);
-	
+
+	/*	
 	state = {
 		bayID : 0001,
 		status : undefined,
@@ -165,7 +186,7 @@ parking10.on('connect', function() {
 		return (this.state.data);
 	}
 	
-	
+
 	getParkingStatus = () => {
 		fetch(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$1761`)		//hardcoded for testing
 			.then(reponse => response.json())
@@ -176,4 +197,58 @@ parking10.on('connect', function() {
 			})
 	}
 	
-	getParkingStatus();
+	//getParkingStatus();
+	*/
+	
+	function publishData () {
+		//parking1.publish('',
+			//'{
+			//"bayID": "1005",
+			//"status": "Unoccupied",
+			//"restriction_ duration": 30
+			//}'
+		//	'parking1 test'
+		//)
+		
+		parking1.publish('', 'Inital Message');
+		console.log ('parking1 message published');
+		
+		parking2.publish('', 'Inital Message');
+		console.log ('parking2 message published');
+		
+		parking3.publish('', 'Inital Message');
+		console.log ('parking3 message published');
+		
+		parking4.publish('', 'Inital Message');
+		console.log ('parking4 message published');
+		
+		parking5.publish('', 'Inital Message');
+		console.log ('parking5 message published');
+		
+		parking6.publish('', 'Inital Message');
+		console.log ('parking6 message published');
+		
+		parking7.publish('', 'Inital Message');
+		console.log ('parking7 message published');
+		
+		parking8.publish('', 'Inital Message');
+		console.log ('parking8 message published');
+		
+		parking9.publish('', 'Inital Message');
+		console.log ('parking9 message published');
+		
+		parking10.publish('', 'Inital Message');
+		console.log ('parking10 message published');
+		
+	}
+	
+	setInterval(
+		function(){
+			console.log('timer test 1min');
+			if (connectCount == 10){
+				console.log('publish initiated');
+				//publishData();
+				//connectCount = 0;
+			}
+		}, 60000
+	);
