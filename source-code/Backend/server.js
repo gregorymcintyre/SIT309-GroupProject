@@ -12,11 +12,15 @@ app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current w
 
 lat = req.params.lat
 lng = req.params.lng
+var d  = (new Date).getTime();
 
-    request.get(`https://api.darksky.net/forecast/2863177e8cb7681e2d21b3595b571989/${lat},${lng}`, function(err, response, body) {
+    request.get(`
+    https://api.darksky.net/forecast/2863177e8cb7681e2d21b3595b571989/${lat},${lng}?exclude=minutely,hourly,alerts,flags&units=si
+  `, function(err, response, body) {
     weatherData = JSON.parse(body) //had to parse to a json, this part did my head in
     //Creating Json object
     var weather = {}
+    
         //make weatherData json within the HTTP GET
         weather = 
         {
@@ -26,8 +30,8 @@ lng = req.params.lng
             "summary": weatherData.currently.summary,
             "temperature": weatherData.currently.temperature,
             "apparentTemperature": weatherData.currently.apparentTemperature,
-            "temperatureHigh": weatherData.currently.temperatureHigh,
-            "temperatureLow": weatherData.currently.temperatureLow,
+            "temperatureHigh": weatherData.daily.data[0].temperatureHigh,
+            "temperatureLow": weatherData.daily.data[0].temperatureLow,
             "windSpeed": weatherData.currently.windSpeed 
         }
 
