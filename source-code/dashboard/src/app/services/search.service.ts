@@ -24,14 +24,23 @@ export class SearchService {
 
 	}
 
+	getLocality(components) {
+		var locality = _.find(components, component => {
+			return _.contains(component.types, 'locality');
+		});
+
+		return locality.short_name;
+	}
+
 	setParams(params: SearchParams) {
 		this.params = _.extend(this.params, params);
 
 		if (this.params.coords == null && this.params.placeId) {
 			this.placesService.getDetails({
 				placeId: this.params.placeId,
-				fields: ['geometry'],
+				fields: ['geometry', 'address_components'],
 			}, response => {
+				this.params.locality = this.getLocality(response.address_components);
 				this.params.coords = response.geometry.location;
 				this.paramsSubject.next(this.params);
 			});

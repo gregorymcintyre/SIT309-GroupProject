@@ -37,7 +37,7 @@ import {SearchService} from './../../services';
 export class SearchCmpt implements OnInit {
 	public selectedPrediction: google.maps.places.QueryAutocompletePrediction;
 	public placeSuggestions: google.maps.places.QueryAutocompletePrediction[] = [];
-	public showAdvancedSearch: boolean = true;
+	public showAdvancedSearch: boolean = false;
 
 	autocompleteService: google.maps.places.AutocompleteService;
 
@@ -46,7 +46,29 @@ export class SearchCmpt implements OnInit {
 	}
 
 	ngOnInit() {
+		// this.useUserLocation();
+	}
 
+	useUserLocation() {
+		var geocoder = new google.maps.Geocoder;
+
+		console.log("checking user location");
+
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(position => {
+				var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+				geocoder.geocode({
+					location: coords,
+				}, (results, status) => {
+					console.log(status);
+					this.searchService.setParams({
+						coords: coords,
+						locality: this.searchService.getLocality(results[0].address_components),
+					});
+				});
+			});
+		}
 	}
 
 	updateSuggestions(field) {
@@ -72,6 +94,7 @@ export class SearchCmpt implements OnInit {
 		this.searchService.setParams({
 			query: this.selectedPrediction.description,
 			coords: null,
+			locality: null,
 			placeId: this.selectedPrediction.place_id,
 		});
 	}
