@@ -11,7 +11,9 @@
 		</mat-button-toggle-group>
 	</mat-card-header>
 	<mat-card-content>
-		<div class="example-selected-value">Selected value: {{resultsView.value}}</div>
+		<div>Selected value: {{resultsView.value}}</div>
+		
+			<div #mapView class="google-map" [style.display]="resultsView.value == 'map' ? 'block' : 'none'"></div>
 		
 	</mat-card-content>
 </mat-card>
