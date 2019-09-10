@@ -71,6 +71,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 
 				this.markers.me = new google.maps.Marker({
 					position: mePos,
+					title: 'Your Current Position',
 					map: this.map,
 					icon: this.icons.me,
 				});
@@ -78,6 +79,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 				this.markers.pin = new google.maps.Marker({
 					position: null,
 					map: this.map,
+					title: 'Searched Location',
 					icon: this.icons.pin,
 				});
 
