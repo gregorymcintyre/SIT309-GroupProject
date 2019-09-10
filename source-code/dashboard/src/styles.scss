@@ -44,3 +44,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 		margin-top:10px;
 	}
 }
+
+.spinner-overlay {
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color:rgba(0,0,0,0.6);
+
+	mat-spinner {
+		text-align:center;
+		top:calc(50% - 12px);
+		left:calc(50% - 12px);
+		position:relative;
+	}
+}

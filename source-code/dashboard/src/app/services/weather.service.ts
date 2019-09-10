@@ -8,9 +8,9 @@ export class WeatherService {
 
 	constructor (private http: HttpClient) {}
 
-	getCurrentWeather(lat: number, lng: number) {
+	getCurrentWeather(lat: number, lng: number, handler) {
 		this.http.get(`${this.weatherUri}/current/${lat}/${lng}`).subscribe(response => {
-			console.log(response);
+			handler(response);
 		});
 	}
 }

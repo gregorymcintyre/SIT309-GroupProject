@@ -12,6 +12,7 @@ import {SearchParams} from './../../interfaces';
 
 export class WeatherCmpt implements OnInit {
 	public searchParams: SearchParams;
+	public currentWeather: any = null;
 
 	constructor (private searchService: SearchService, private weatherService: WeatherService) {}
 
@@ -21,8 +22,9 @@ export class WeatherCmpt implements OnInit {
 
 			// Get weather
 			if (params.coords != null) {
-				console.log(params);
-				this.weatherService.getCurrentWeather(params.coords.lat(), params.coords.lng());
+				this.weatherService.getCurrentWeather(params.coords.lat(), params.coords.lng(), response => {
+					this.currentWeather = response;
+				});
 			}
 		});
 	}
