@@ -41,6 +41,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
 				};
+				
 				this.map = new google.maps.Map(this.mapView.nativeElement, {
 					center: carPos,
 					styles: googleMapStyles,

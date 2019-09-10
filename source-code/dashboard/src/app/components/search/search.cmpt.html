@@ -17,7 +17,9 @@
 			<mat-icon>clear</mat-icon> Clear Search
 		</button>
 		<button mat-raised-button color="accent" (click)="showAdvancedSearch = !showAdvancedSearch">
-			Advanced Search <mat-icon>keyboard_arrow_down</mat-icon>
+			Advanced Search
+			<mat-icon *ngIf="!showAdvancedSearch">keyboard_arrow_down</mat-icon>
+			<mat-icon *ngIf="showAdvancedSearch">keyboard_arrow_up</mat-icon>
 		</button>
 	</div>
 </div>
