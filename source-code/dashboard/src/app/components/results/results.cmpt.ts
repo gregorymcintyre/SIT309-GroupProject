@@ -18,11 +18,29 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 
 	private map: google.maps.Map;
 	private markers: any = {
-		car: null,
+		me: null,
 		parks: [],
 		location: null,
 	};
 	private infoWindow: google.maps.InfoWindow;
+	private icons: any = {
+		car: {
+			scaledSize: new google.maps.Size(32, 32),
+			url: '/assets/markers/car.svg',
+		},
+		park: {
+			scaledSize: new google.maps.Size(32, 32),
+			url: '/assets/markers/park.svg',
+		},
+		me: {
+			scaledSize: new google.maps.Size(32, 32),
+			url: '/assets/markers/me.svg',
+		},
+		pin: {
+			scaledSize: new google.maps.Size(32, 32),
+			url: '/assets/markers/pin.svg',
+		},
+	}
 
 	constructor(private searchService: SearchService) {}
 
@@ -30,6 +48,8 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 		this.searchService.subscribeToParams(params => {
 			if (params.coords) {
 				this.map.setCenter(params.coords);
+
+				this.markers.pin.setPosition(params.coords);
 			}
 		});
 	}
@@ -37,29 +57,35 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 	ngAfterViewInit() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(position => {
-				var carPos = {
+				var mePos = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
 				};
 				
 				this.map = new google.maps.Map(this.mapView.nativeElement, {
-					center: carPos,
+					center: mePos,
 					styles: googleMapStyles,
 					zoom: 14,
 					streetViewControl: false,
 				});
 
-				this.markers.car = new google.maps.Marker({
-					label: 'Car',
-					position: carPos,
+				this.markers.me = new google.maps.Marker({
+					position: mePos,
 					map: this.map,
+					icon: this.icons.me,
+				});
+
+				this.markers.pin = new google.maps.Marker({
+					position: null,
+					map: this.map,
+					icon: this.icons.pin,
 				});
 
 				this.infoWindow = new google.maps.InfoWindow();
 
 				this.markers.parks.push(new google.maps.Marker({
-					label: 'Park',
 					map: this.map,
+					icon: this.icons.park,
 					position: {
 						lat: -38.1851821,
 						lng: 144.3153567,
@@ -68,6 +94,13 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 				}));
 
 				this.markers.parks[0].addListener('click', this.parkCallback());
+			});
+
+			navigator.geolocation.watchPosition(position => {
+				this.markers.me.setPosition({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude,
+				});
 			});
 		}
 	}
