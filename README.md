@@ -6,7 +6,7 @@
 | Tim Tattersal      | Dashboard (Front End) | 
 | Marshal Welgama    | Backend API      | 
 | Mehul Warde | Maps     | 
-| Greg Macintyre | Dashboard (MISC)    | 
+| Greg Macintyre | AWS IoT Core    | 
 
 ## Front End:
 ---
