@@ -1,6 +1,7 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request');
+var d2d = require('degrees-to-direction');
 const app = express()
 const port = 3000;
 const cors = require('cors');
@@ -35,7 +36,7 @@ var d  = (new Date).getTime();
             "apparentTemperature": weatherData.currently.apparentTemperature,
             "temperatureHigh": weatherData.daily.data[0].temperatureHigh,
             "temperatureLow": weatherData.daily.data[0].temperatureLow,
-            "windBearing": weatherData.daily.data[0].windBearing,
+            "windBearing": d2d(weatherData.daily.data[0].windBearing),
             "icon": weatherData.daily.data[0].icon,
             "uvIndex": weatherData.daily.data[0].uvIndex,
             "humidity": weatherData.daily.data[0].humidity,
