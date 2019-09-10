@@ -1,18 +1,16 @@
-<div class="dashboard">
+<div class="dashboard"><!-- 
 	<div fxLayout="row" fxLayoutGap="20px">
 		<div fxFlex="100%">
+			
+		</div>
+	</div> -->
+	<div fxLayout="row" fxLayoutGap="20px">
+		<div fxFlex="33.33%">
 			<mat-card>
 				<mat-card-content>
 					<search></search>
 				</mat-card-content>
-			</mat-card>
-		</div>
-	</div>
-	<div fxLayout="row" fxLayoutGap="20px">
-		<div fxFlex="66.66%">
-			<results></results>
-		</div>
-		<div fxFlex="33.33%">
+			</mat-card><br>
 			<mat-card>
 				<mat-card-header>
 					<mat-card-title>Current Weather</mat-card-title>
@@ -21,6 +19,9 @@
 					<weather></weather>
 				</mat-card-content>
 			</mat-card>
+		</div>
+		<div fxFlex="66.66%">
+			<results></results>
 		</div>
 	</div>
 </div>
