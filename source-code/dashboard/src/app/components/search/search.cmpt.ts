@@ -50,7 +50,7 @@ export class SearchCmpt implements OnInit {
 	}
 
 	useUserLocation() {
-		var geocoder = new google.maps.Geocoder;
+		var geocoder = new google.maps.Geocoder();
 
 		console.log("checking user location");
 

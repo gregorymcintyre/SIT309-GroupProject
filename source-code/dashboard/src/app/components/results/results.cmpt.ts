@@ -114,8 +114,6 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 			component.infoWindow.setContent(component.parkInfo(marker));
 			component.infoWindow.setPosition(marker.getPosition());
 			component.infoWindow.open(marker.map, marker);
-			console.log(component);
-			console.log(event);
 		};
 	}
 
