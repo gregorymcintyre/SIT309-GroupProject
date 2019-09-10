@@ -1,4 +1,6 @@
 const awsIot = require('aws-iot-device-sdk');
+const fetch = require("node-fetch");
+
 
 const parking1 = awsIot.device({
 	certPath:	'./certificates/parking1/4c54dfc22e-certificate.pem.crt',
@@ -78,13 +80,9 @@ const parking10 = awsIot.device({
 	host:		'a3e9smmo06mnl8-ats.iot.us-east-1.amazonaws.com'
 });
 
-
-
-
-
 console.log('Conected to: '); 
 
-var connectCount = 0;
+var connectCount = 0;	//to simplify connections in the future
 
 parking1.on('connect', function() {
 	isConnected=true;
@@ -147,3 +145,35 @@ parking10.on('connect', function() {
 });
 
 //console.log(connectCount);
+	
+	state = {
+		bayID : 0001,
+		status : undefined,
+		restriction_duration : undefined,
+	}
+	
+		handleChanges = (event) =>
+	{
+		this.setState({
+			bayID:event.target.value
+		})
+		
+	}
+	
+	outputData = () => {
+		console.log(this.state.data);
+		return (this.state.data);
+	}
+	
+	
+	getParkingStatus = () => {
+		fetch(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$1761`)		//hardcoded for testing
+			.then(reponse => response.json())
+			.then(data => {
+				this.setState({
+					data : data
+				})
+			})
+	}
+	
+	getParkingStatus();
