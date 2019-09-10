@@ -35,6 +35,8 @@ var d  = (new Date).getTime();
             "apparentTemperature": weatherData.currently.apparentTemperature,
             "temperatureHigh": weatherData.daily.data[0].temperatureHigh,
             "temperatureLow": weatherData.daily.data[0].temperatureLow,
+            "windBearing": weatherData.daily.data[0].windBearing,
+            "icon": weatherData.daily.data[0].icon,
             "uvIndex": weatherData.daily.data[0].uvIndex,
             "humidity": weatherData.daily.data[0].humidity,
             "time": d,
