@@ -5,8 +5,8 @@
 | ------------- |:-------------:|
 | Tim Tattersal      | Dashboard (Front End) | 
 | Marshal Welgama    | Backend API      | 
-| Mehul Warde | TBA     | 
-| Greg Macintyre | TBA    | 
+| Mehul Warde | Maps     | 
+| Greg Macintyre | Dashboard (MISC)    | 
 
 ## Front End:
 ---
@@ -90,7 +90,7 @@ The closest 10 locations will be autoaticly selected and added displayed.
 
 #### *Endpoints*
 
-- parking/bays/:lat/:lng
+- parking/:lat/:lng
 
 Description: Retrieves 10 closest parking locations (within 500m) based on the lng and lat of requested parameters. Multiple calls will be made to both APIs. 
 
