@@ -1,16 +1,38 @@
 const awsIot = require('aws-iot-device-sdk');
 const fetch = require("node-fetch");
 
-var bay1 = 951;
-var bay2 = 6919;
-var bay3 = 6920;
-var bay4 = 4712;
-var bay5 = 4725;
-var bay6 = 4735;
-var bay7 = 4739;
-var bay8 = 4745;
-var bay9 = 4750;
-var bay10 = 6834;
+//modify bay variables here
+//var bay1 = 951;
+var bay1 = {"bayID": 951, "status": undefined, "restriction_duration": undefined }
+
+//var bay2 = 6919;
+var bay2 = {"bayID": 6919, "status": undefined, "restriction_duration": undefined }
+
+//var bay3 = 6920;
+var bay3 = {"bayID": 6920, "status": undefined, "restriction_duration": undefined }
+
+//var bay4 = 4712;
+var bay4 = {"bayID": 4712, "status": undefined, "restriction_duration": undefined }
+
+//var bay5 = 4725;
+var bay5 = {"bayID": 4725, "status": undefined, "restriction_duration": undefined }
+
+//var bay6 = 4735;
+var bay6 = {"bayID": 4735, "status": undefined, "restriction_duration": undefined }
+
+//var bay7 = 4739;
+var bay7 = {"bayID": 4739, "status": undefined, "restriction_duration": undefined }
+
+//var bay8 = 4745;
+var bay8 = {"bayID": 4745, "status": undefined, "restriction_duration": undefined }
+
+//var bay9 = 4750;
+var bay9 = {"bayID": 4750, "status": undefined, "restriction_duration": undefined }
+
+//var bay10 = 6834;
+var bay10 = {"bayID": 6834, "status": undefined, "restriction_duration": undefined }
+
+
 
 const parking1 = awsIot.device({
 	certPath:	'./certificates/parking1/4c54dfc22e-certificate.pem.crt',
@@ -132,7 +154,6 @@ parking3.on('connect', function() {
 	
 		//parking3.publish('parking3', '{"data" : "test"}');
 		//console.log ('parking3 message published');
-	
 });
 
 parking4.on('connect', function() {
@@ -184,7 +205,7 @@ parking10.on('connect', function() {
 	//console.log(connectCount + ' of 10 devices connected');
 });
 
- //store is device is connected or not 
+//store is device is connected or not 
 let isConnectedparking1=false; 
 let isConnectedparking2=false; 
 let isConnectedparking3=false; 
@@ -201,110 +222,76 @@ let timeout=null;
 
 //console.log(connectCount);
 
-	/*	
-	state = {
-		bayID : 0001,
-		status : undefined,
-		restriction_duration : undefined,
-	}
-	
-		handleChanges = (event) =>
-	{
-		this.setState({
-			bayID:event.target.value
-		})
-		
-	}
-	
-	outputData = () => {
-		console.log(this.state.data);
-		return (this.state.data);
-	}
-	
-
-	getParkingStatus = () => {
-		fetch(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=$1761`)		//hardcoded for testing
-			.then(reponse => response.json())
-			.then(data => {
-				this.setState({
-					data : data
-				})
-			})
-	}
-	
-	//getParkingStatus();
-	*/
-	
 	function publishData (bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10) {
 		
 		console.log('Publish initiated');
 		
 		try{
-			parking1.publish('parking1', '{"bayID": ' + bay1 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking1.publish('parking1', '{"bayID": ' + bay1.bayID + ', "status": ' + bay1.status + ', "restriction_duration": '+ bay1.restriction_duration +'}');
 			console.log ('parking1 message published');
 		}catch(err){
 			console.log('Parking 1: ' + err.name);
 		}
 
 		try{
-			parking2.publish('parking2', '{"bayID": ' + bay2 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking2.publish('parking2', '{"bayID": ' + bay2.bayID + ', "status": ' + bay2.status + ', "restriction_duration": '+ bay2.restriction_duration +'}');
 			console.log ('parking2 message published');
 		}catch(err){
 			console.log('Parking 2: ' + err.name);
 		}
 
 		try{
-			parking3.publish('parking3', '{"bayID": ' + bay3 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking3.publish('parking3', '{"bayID": ' + bay3.bayID + ', "status": ' + bay3.status + ', "restriction_duration": '+ bay3.restriction_duration +'}');
 			console.log ('parking3 message published');
 		}catch(err){
 			console.log('Parking 3: ' + err.name);
 		}
 		
 		try{
-			parking4.publish('parking4', '{"bayID": ' + bay4 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking4.publish('parking4', '{"bayID": ' + bay4.bayID + ', "status": ' + bay4.status + ', "restriction_duration": '+ bay4.restriction_duration +'}');
 			console.log ('parking4 message published');
 		}catch(err){
 			console.log('Parking 4: ' + err.name);
 		}
 		
 		try{
-			parking5.publish('parking5', '{"bayID": ' + bay5 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking5.publish('parking5', '{"bayID": ' + bay5.bayID + ', "status": ' + bay5.status + ', "restriction_duration": '+ bay5.restriction_duration +'}');
 			console.log ('parking5 message published');
 		}catch(err){
 			console.log('Parking 5: ' + err.name);
 		}
 		
 		try{
-			parking6.publish('parking6', '{"bayID": ' + bay6 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking6.publish('parking6', '{"bayID": ' + bay6.bayID + ', "status": ' + bay6.status + ', "restriction_duration": '+ bay6.restriction_duration +'}');
 			console.log ('parking6 message published');
 		}catch(err){
 			console.log('Parking 6: ' + err.name);
 		}
 		
 		try{
-			parking7.publish('parking7', '{"bayID": ' + bay7 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking7.publish('parking7', '{"bayID": ' + bay7.bayID + ', "status": ' + bay7.status + ', "restriction_duration": '+ bay7.restriction_duration +'}');
 			console.log ('parking7 message published');
 		}catch(err){
 			console.log('Parking 7: ' + err.name);
 		}
 		
 		try{
-			parking8.publish('parking8', '{"bayID": ' + bay8 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking8.publish('parking8', '{"bayID": ' + bay8.bayID + ', "status": ' + bay8.status + ', "restriction_duration": '+ bay8.restriction_duration +'}');
 			console.log ('parking8 message published');
 		}catch(err){
 			console.log('Parking 8: ' + err.name);
 		}
 		
 		try{
-			parking9.publish('parking9', '{"bayID": ' + bay9 + ', "status": "Unoccupied", "restriction_duration": 30 }');
+			parking9.publish('parking9', '{"bayID": ' + bay9.bayID + ', "status": ' + bay9.status + ', "restriction_duration": '+ bay9.restriction_duration +'}');
 			console.log ('parking3 message published');
 		}catch(err){
 			console.log('Parking 9: ' + err.name);
 		}
 		
 		try{
-			parking10.publish('parking10', '{"bayID": ' + bay10 + ', "status": "Unoccupied", "restriction_duration": 30 }');
-			console.log ('parking3 message published');
+			parking10.publish('parking10', '{"bayID": ' + bay10.bayID + ', "status": ' + bay10.status + ', "restriction_duration": '+ bay10.restriction_duration +'}');
+			console.log ('parking10 message published');
 		}catch(err){
 			console.log('Parking 10: ' + err.name);
 		}
@@ -314,56 +301,110 @@ let timeout=null;
 	function queryBays(bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10){
 		console.log('Bay queries intiaited');
 
-		console.log('querying Bay ID ' + bay1);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=951')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay1.bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay1.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then( json => {
+				//console.log(json),
+				//console.log(json[0].status),
+				bay1.status = json[0].status,
+				bay1.restriction_duration = 30
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay1)
+				//Object.assign(bay1, json);
+			});
+		console.log(bay1.bayID + " : " + bay1.status + " : " + bay1.restriction_duration);
 		
-		console.log('querying Bay ID ' + bay2);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=6919')		//hardcoded for testing
+		
+		//console.log('querying Bay ID ' + bay2);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay2.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json),
+				bay2.status = json[0].status,
+				bay2.restriction_duration = 30
+			});
+		console.log(bay2.bayID + " : " + bay2.status + " : " + bay2.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay3);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=6920')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay3);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay3.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay3.status = json[0].status,
+				bay3.restriction_duration = 30
+			});
+		console.log(bay3.bayID + " : " + bay3.status + " : " + bay3.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay4);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=4712')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay4);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id='+ bay4.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay4.status = json[0].status,
+				bay4.restriction_duration = 30
+			});
+		console.log(bay4.bayID + " : " + bay4.status + " : " + bay4.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay5);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=4735')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay5);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay5.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay5.status = json[0].status,
+				bay5.restriction_duration = 30
+			});
+		console.log(bay5.bayID + " : " + bay5.status + " : " + bay5.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay6);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=4745')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay6);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay6.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay6.status = json[0].status,
+				bay6.restriction_duration = 30
+			});
+		console.log(bay6.bayID + " : " + bay6.status + " : " + bay6.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay7);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=4746')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay7);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay7.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay7.status = json[0].status,
+				bay7.restriction_duration = 30
+			});
+		console.log(bay7.bayID + " : " + bay7.status + " : " + bay7.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay8);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=4748')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay8);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay8.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+			//console.log(json));
+				bay8.status = json[0].status,
+				bay8.restriction_duration = 30
+			});
+		console.log(bay8.bayID + " : " + bay8.status + " : " + bay8.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay9);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=6834')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay9);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay9.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
+			.then(json => {
+				//console.log(json));
+				bay9.status = json[0].status,
+				bay9.restriction_duration = 30
+			});
+		console.log(bay9.bayID + " : " + bay9.status + " : " + bay9.restriction_duration);
 			
-		console.log('querying Bay ID ' + bay10);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=6835')		//hardcoded for testing
+		//console.log('querying Bay ID ' + bay10);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay10.bayID)
 			.then(res => res.json())
-			.then(json => console.log(json));
-			
+			.then(json => {
+				//console.log(json));
+				bay10.status = json[0].status,
+				bay10.restriction_duration = 30
+			});
+		console.log(bay10.bayID + " : " + bay10.status + " : " + bay10.restriction_duration);
 	}
 	
 	
@@ -371,8 +412,9 @@ let timeout=null;
 		function(){
 			//console.log('timer test');
 			//if (connectCount >= 3){
+				//queryBays(bay1.bayID, bay2.bayID, bay3.bayID, bay4.bayID, bay5.bayID, bay6.bayID, bay7.bayID, bay8.bayID, bay9.bayID, bay10.bayID);
 				queryBays(bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10);
-				//publishData(bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10);
+				publishData(bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10);
 				//connectCount = 0;
 			//}
 		}, 10000		//10 seconds (testing)
