@@ -18,16 +18,10 @@ var bay10 = bay.push({"bayID": 6834, "status": undefined, "restriction_duration"
 //console.log(bay[0].bayID);
 
 var timesBay = [];
-var timesBay1 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay2 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay3 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay4 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay5 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay6 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay7 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay8 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay9 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
-var timesBay10 = timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
+for (var i = 0 ; i < 10 ; i ++){
+		timesBay.push({"starttime1" : undefined, "starttime2" : undefined, "starttime3" : undefined, "endtime1" : undefined, "endtime2" : undefined, "endtime3" : undefined, "typedesc1" : undefined , "typedesc2" : undefined , "typedesc3" : undefined});
+}
+//console.log(timesBay);
 
 const parking1 = awsIot.device({
 	certPath:	'./certificates/parking1/4c54dfc22e-certificate.pem.crt',
@@ -124,9 +118,6 @@ parking1.on('connect', function() {
 	connectCount++;
 	console.log ('parking1 connected');
 	//console.log(connectCount + ' of 10 devices connected');
-		
-		//parking1.publish('parking1', '{"data" : "test"}');
-		//console.log ('parking1 message published');
 });
 
 parking2.on('connect', function() {
@@ -136,9 +127,6 @@ parking2.on('connect', function() {
 	connectCount++;
 	console.log ('parking2 connected');
 	//console.log(connectCount + ' of 10 devices connected');
-		
-		//parking2.publish('parking2', '{"data" : "test"}');
-		//console.log ('parking2 message published');
 });
 
 parking3.on('connect', function() {
@@ -146,9 +134,6 @@ parking3.on('connect', function() {
 	connectCount++;
 	console.log ('parking3 connected');
 	//console.log(connectCount + ' of 10 devices connected');
-	
-		//parking3.publish('parking3', '{"data" : "test"}');
-		//console.log ('parking3 message published');
 });
 
 parking4.on('connect', function() {
@@ -202,7 +187,12 @@ parking10.on('connect', function() {
 
 
 //store is device is connected or not 
-let isConnectedparking1=false; 
+//var isConnected = [];
+//for (var i = 0; i < 10 ; i ++){
+//	let isConnectedValue=false; 
+//	isConnected.push(
+//}
+let isConnectedparking1=false;
 let isConnectedparking2=false; 
 let isConnectedparking3=false; 
 let isConnectedparking4=false; 
@@ -223,12 +213,12 @@ let timeout=null;
 		
 		console.log('Publish initiated');
 		
-		for(var i = 0 ; i < 3 ; i++){
+		for(var i = 0 ; i < 10 ; i++){
 			try{
 				parking1.publish('parking' + (i+1), '{"bayID": ' + bay[i].bayID + ', "status": ' + bay[i].status + ', "restriction_duration": '+ bay[i].restriction_duration +'}');
-				console.log ('parking' + (i+1) + ' message published');
+				//console.log ('parking' + (i+1) + ': message published');
 			}catch(err){
-				console.log('Parking '+ (i+1) + ': ' + err.name);
+				console.log('parking'+ (i+1) + ': ' + err.name);
 			}
 		}
 	}
@@ -240,61 +230,57 @@ let timeout=null;
 		var currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();		//for comparrison with pulled times
 		
 		/*
-		//for ( var i = 0 ; i < 2 ; i++ ){
-		//var i = 0;
-		//while(i<10){
-		
-		console.log('querying Bay ID ' + bay[i].bayID);
-		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[i].bayID)
-			.then(res => res.json())
-			.then( json => {
-				//console.log(json),
-				//console.log(json[i].status),
-				bay[i].status = json[0].status
-				//console.log(JSON.stringify(bay1.status))
-				//console.log(bay[0])
-			})
-			.catch(error => { 
-				console.log("Bay Info: " + error);
-			})
-			
-		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[i].bayID)
-			.then(res => res.json())
-			.then(json => {
-				//console.log(json),
-				timesBay[i].starttime1 = json[0].starttime1,
-				timesBay[i].starttime2 = json[0].starttime2,
-				timesBay[i].starttime3 = json[0].starttime3,
-				timesBay[i].endtime1 = json[0].endtime1,
-				timesBay[i].endtime2 = json[0].endtime2,
-				timesBay[i].endtime3 = json[0].endtime3,
-				timesBay[i].typedesc1 = json[0].typedesc1,
-				timesBay[i].typedesc2 = json[0].typedesc2,
-				timesBay[i].typedesc3 = json[0].typedesc3
-				//console.log(timesBay[i])
-			})
+		for ( var i = 0 ; i < 5 ; i++ ){
 
-			.catch(error => {
-				console.log("Restriction Info: " + error);
-			})
+			fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[i].bayID)
+				.then(res => res.json())
+				.then( json => {
+					console.log('querying Bay ID ' + bay[i].bayID);
+					//console.log(json),
+					//console.log(json[i].status),
+					bay[i].status = json[0].status;
+					//console.log(JSON.stringify(bay1.status))
+				})
+				.catch(error => { 
+					console.log("Bay Info: " + error);
+				})
+				
+			fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[i].bayID)
+				.then(res => res.json())
+				.then(json => {
+					//console.log(json),
+					timesBay[i].starttime1 = json[0].starttime1;
+					timesBay[i].starttime2 = json[0].starttime2;
+					timesBay[i].starttime3 = json[0].starttime3;
+					timesBay[i].endtime1 = json[0].endtime1;
+					timesBay[i].endtime2 = json[0].endtime2;
+					timesBay[i].endtime3 = json[0].endtime3;
+					timesBay[i].typedesc1 = json[0].typedesc1;
+					timesBay[i].typedesc2 = json[0].typedesc2;
+					timesBay[i].typedesc3 = json[0].typedesc3;
+					//console.log(timesBay[i]);
+					
+					if(currentTime >= timesBay[i].starttime1 && currentTime < timesBay[i].endtime1){
+						bay[i].restriction_duration = timesBay[i].typedesc1;
+					}else if(currentTime >= timesBay[i].starttime2 && currentTime < timesBay[i].endtime2){
+						bay[i].restriction_duration = timesBay[i].typedesc2;
+					}else if(currentTime >= timesBay[i].starttime3 && currentTime < timesBay[i].endtime3){
+						bay[i].restriction_duration = timesBay[i].typedesc3;
+					} else{
+						bay[i].restriction_duration = "Error";
+					}	
+				})
+				.catch(error => {
+					console.log("Restriction Info: " + error);
+				})
+		}
 		
-		if(currentTime >= timesBay[i].starttime1 && currentTime < timesBay[i].endtime1){
-			bay[i].restriction_duration = timesBay[i].typedesc1;
-		}else if(currentTime >= timesBay[i].starttime2 && currentTime < timesBay[i].endtime2){
-			bay[i].restriction_duration = timesBay[i].typedesc2;
-		}else if(currentTime >= timesBay[i].starttime3 && currentTime < timesBay[i].endtime3){
-			bay[i].restriction_duration = timesBay[i].typedesc3;
-		} else{
-			bay[i].restriction_duration = "Error";
-		}	
-		
-		console.log(bay[1].bayID + " : " + bay[1].status + " : " + bay[1].restriction_duration);
-		
-		//i++;
-		//}
+		for(var i = 0 ; i < 10 ; i++){
+			console.log(bay[i].bayID + " : " + bay[i].status + " : " + bay[i].restriction_duration);
+		}
 		*/
 		
-		console.log('querying Bay ID ' + bay[0].bayID);
+		//console.log('querying Bay ID ' + bay[0].bayID);
 		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[0].bayID)
 			.then(res => res.json())
 			.then( json => {
@@ -312,35 +298,38 @@ let timeout=null;
 			.then(res => res.json())
 			.then(json => {
 				//console.log(json),
-				timesBay[0].starttime1 = json[0].starttime1,
-				timesBay[0].starttime2 = json[0].starttime2,
-				timesBay[0].starttime3 = json[0].starttime3,
-				timesBay[0].endtime1 = json[0].endtime1,
-				timesBay[0].endtime2 = json[0].endtime2,
-				timesBay[0].endtime3 = json[0].endtime3,
-				timesBay[0].typedesc1 = json[0].typedesc1,
-				timesBay[0].typedesc2 = json[0].typedesc2,
-				timesBay[0].typedesc3 = json[0].typedesc3
+				timesBay[0].starttime1 = json[0].starttime1;
+				timesBay[0].starttime2 = json[0].starttime2;
+				timesBay[0].starttime3 = json[0].starttime3;
+				timesBay[0].endtime1 = json[0].endtime1;
+				timesBay[0].endtime2 = json[0].endtime2;
+				timesBay[0].endtime3 = json[0].endtime3;
+				timesBay[0].typedesc1 = json[0].typedesc1;
+				timesBay[0].typedesc2 = json[0].typedesc2;
+				timesBay[0].typedesc3 = json[0].typedesc3;
 				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[0].starttime1 && currentTime < timesBay[0].endtime1){
+					bay[0].restriction_duration = timesBay[0].typedesc1;
+				}else if(currentTime >= timesBay[0].starttime2 && currentTime < timesBay[0].endtime2){
+					bay[0].restriction_duration = timesBay[0].typedesc2;
+				}else if(currentTime >= timesBay[0].starttime3 && currentTime < timesBay[0].endtime3){
+					bay[0].restriction_duration = timesBay[0].typedesc3;
+				} else if (bay[0].status != undefined) {
+					bay[0].restriction_duration = "No Restrictions";
+				} else {
+					bay[0].restriction_duration = "Retriving Data"
+				}
+				
+				console.log(bay[0].bayID + " : " + bay[0].status + " : " + bay[0].restriction_duration);
 			})
 			
 			.catch(error => {
 				console.log("Restriction Info: " + error);
 			})
 		
-		if(currentTime >= timesBay[0].starttime1 && currentTime < timesBay[0].endtime1){
-			bay[0].restriction_duration = timesBay[0].typedesc1;
-		}else if(currentTime >= timesBay[0].starttime2 && currentTime < timesBay[0].endtime2){
-			bay[0].restriction_duration = timesBay[0].typedesc2;
-		}else if(currentTime >= timesBay[0].starttime3 && currentTime < timesBay[0].endtime3){
-			bay[0].restriction_duration = timesBay[0].typedesc3;
-		} else{
-			bay[0].restriction_duration = "Error";
-		}	
-		console.log(bay[0].bayID + " : " + bay[0].status + " : " + bay[0].restriction_duration);
 		
-		
-		console.log('querying Bay ID ' + bay[1].bayID);
+		//console.log('querying Bay ID ' + bay[1].bayID);
 		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[1].bayID)
 			.then(res => res.json())
 			.then( json => {
@@ -354,7 +343,7 @@ let timeout=null;
 				console.log("Bay Info: " + error);
 			})
 			
-		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[0].bayID)
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[1].bayID)
 			.then(res => res.json())
 			.then(json => {
 				//console.log(json),
@@ -368,25 +357,28 @@ let timeout=null;
 				timesBay[1].typedesc2 = json[0].typedesc2,
 				timesBay[1].typedesc3 = json[0].typedesc3
 				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[1].starttime1 && currentTime < timesBay[1].endtime1){
+					bay[1].restriction_duration = timesBay[1].typedesc1;
+				}else if(currentTime >= timesBay[1].starttime2 && currentTime < timesBay[1].endtime2){
+					bay[1].restriction_duration = timesBay[1].typedesc2;
+				}else if(currentTime >= timesBay[1].starttime3 && currentTime < timesBay[1].endtime3){
+					bay[1].restriction_duration = timesBay[1].typedesc3;
+				} else if (bay[1].status != undefined) {
+					bay[1].restriction_duration = "No Restrictions";
+				} else {
+					bay[1].restriction_duration = "Retriving Data"
+				}
+				
+				console.log(bay[1].bayID + " : " + bay[1].status + " : " + bay[1].restriction_duration);
 			})
 			
 			.catch(error => {
 				console.log("Restriction Info: " + error);
 			})
 		
-		if(currentTime >= timesBay[1].starttime1 && currentTime < timesBay[1].endtime1){
-			bay[1].restriction_duration = timesBay[1].typedesc1;
-		}else if(currentTime >= timesBay[1].starttime2 && currentTime < timesBay[1].endtime2){
-			bay[1].restriction_duration = timesBay[1].typedesc2;
-		}else if(currentTime >= timesBay[1].starttime3 && currentTime < timesBay[1].endtime3){
-			bay[1].restriction_duration = timesBay[1].typedesc3;
-		} else{
-			bay[1].restriction_duration = "Error";
-		}	
-		console.log(bay[1].bayID + " : " + bay[1].status + " : " + bay[1].restriction_duration);
-	
-	
-		console.log('querying Bay ID ' + bay[2].bayID);
+
+		//console.log('querying Bay ID ' + bay[2].bayID);
 		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[2].bayID)
 			.then(res => res.json())
 			.then( json => {
@@ -414,25 +406,362 @@ let timeout=null;
 				timesBay[2].typedesc2 = json[0].typedesc2,
 				timesBay[2].typedesc3 = json[0].typedesc3
 				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[2].starttime1 && currentTime < timesBay[2].endtime1){
+					bay[2].restriction_duration = timesBay[2].typedesc1;
+				}else if(currentTime >= timesBay[2].starttime2 && currentTime < timesBay[2].endtime2){
+					bay[2].restriction_duration = timesBay[2].typedesc2;
+				}else if(currentTime >= timesBay[2].starttime3 && currentTime < timesBay[2].endtime3){
+					bay[2].restriction_duration = timesBay[2].typedesc3;
+				} else if (bay[2].status != undefined) {
+					bay[2].restriction_duration = "No Restrictions";
+				} else {
+					bay[2].restriction_duration = "Retriving Data"
+				}
+		
+				console.log(bay[2].bayID + " : " + bay[2].status + " : " + bay[2].restriction_duration);
+			})
+			
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+
+
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[3].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[3].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[3].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[3].starttime1 = json[0].starttime1,
+				timesBay[3].starttime2 = json[0].starttime2,
+				timesBay[3].starttime3 = json[0].starttime3,
+				timesBay[3].endtime1 = json[0].endtime1,
+				timesBay[3].endtime2 = json[0].endtime2,
+				timesBay[3].endtime3 = json[0].endtime3,
+				timesBay[3].typedesc1 = json[0].typedesc1,
+				timesBay[3].typedesc2 = json[0].typedesc2,
+				timesBay[3].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[3].starttime1 && currentTime < timesBay[3].endtime1){
+					bay[3].restriction_duration = timesBay[3].typedesc1;
+				}else if(currentTime >= timesBay[3].starttime2 && currentTime < timesBay[3].endtime2){
+					bay[3].restriction_duration = timesBay[3].typedesc2;
+				}else if(currentTime >= timesBay[3].starttime3 && currentTime < timesBay[3].endtime3){
+					bay[3].restriction_duration = timesBay[3].typedesc3;
+				} else if (bay[3].status != undefined) {
+					bay[3].restriction_duration = "No Restrictions";
+				} else {
+					bay[3].restriction_duration = "Retriving Data"
+				}
+		
+				console.log(bay[3].bayID + " : " + bay[3].status + " : " + bay[3].restriction_duration);
+			})
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+		
+
+		//console.log('querying Bay ID ' + bay[4].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[4].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[4].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[4].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[4].starttime1 = json[0].starttime1,
+				timesBay[4].starttime2 = json[0].starttime2,
+				timesBay[4].starttime3 = json[0].starttime3,
+				timesBay[4].endtime1 = json[0].endtime1,
+				timesBay[4].endtime2 = json[0].endtime2,
+				timesBay[4].endtime3 = json[0].endtime3,
+				timesBay[4].typedesc1 = json[0].typedesc1,
+				timesBay[4].typedesc2 = json[0].typedesc2,
+				timesBay[4].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[4].starttime1 && currentTime < timesBay[4].endtime1){
+					bay[4].restriction_duration = timesBay[4].typedesc1;
+				}else if(currentTime >= timesBay[4].starttime2 && currentTime < timesBay[4].endtime2){
+					bay[4].restriction_duration = timesBay[4].typedesc2;
+				}else if(currentTime >= timesBay[4].starttime3 && currentTime < timesBay[4].endtime3){
+					bay[4].restriction_duration = timesBay[4].typedesc3;
+				} else if (bay[4].status != undefined) {
+					bay[4].restriction_duration = "No Restrictions";
+				} else {
+					bay[4].restriction_duration = "Retriving Data"
+				}
+				
+				console.log(bay[4].bayID + " : " + bay[4].status + " : " + bay[4].restriction_duration);
+			})
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+
+		
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[5].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[5].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[5].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[5].starttime1 = json[0].starttime1,
+				timesBay[5].starttime2 = json[0].starttime2,
+				timesBay[5].starttime3 = json[0].starttime3,
+				timesBay[5].endtime1 = json[0].endtime1,
+				timesBay[5].endtime2 = json[0].endtime2,
+				timesBay[5].endtime3 = json[0].endtime3,
+				timesBay[5].typedesc1 = json[0].typedesc1,
+				timesBay[5].typedesc2 = json[0].typedesc2,
+				timesBay[5].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[5].starttime1 && currentTime < timesBay[5].endtime1){
+					bay[5].restriction_duration = timesBay[5].typedesc1;
+				}else if(currentTime >= timesBay[5].starttime2 && currentTime < timesBay[5].endtime2){
+					bay[5].restriction_duration = timesBay[5].typedesc2;
+				}else if(currentTime >= timesBay[5].starttime3 && currentTime < timesBay[5].endtime3){
+					bay[5].restriction_duration = timesBay[5].typedesc3;
+				} else if (bay[5].status != undefined) {
+					bay[5].restriction_duration = "No Restrictions";
+				} else {
+					bay[5].restriction_duration = "Retriving Data"
+				}
+				
+				console.log(bay[5].bayID + " : " + bay[5].status + " : " + bay[5].restriction_duration);
+			})
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+		
+
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[6].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[6].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[6].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[6].starttime1 = json[0].starttime1,
+				timesBay[6].starttime2 = json[0].starttime2,
+				timesBay[6].starttime3 = json[0].starttime3,
+				timesBay[6].endtime1 = json[0].endtime1,
+				timesBay[6].endtime2 = json[0].endtime2,
+				timesBay[6].endtime3 = json[0].endtime3,
+				timesBay[6].typedesc1 = json[0].typedesc1,
+				timesBay[6].typedesc2 = json[0].typedesc2,
+				timesBay[6].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[6].starttime1 && currentTime < timesBay[6].endtime1){
+						bay[6].restriction_duration = timesBay[6].typedesc1;
+				}else if(currentTime >= timesBay[6].starttime2 && currentTime < timesBay[6].endtime2){
+					bay[6].restriction_duration = timesBay[6].typedesc2;
+				}else if(currentTime >= timesBay[6].starttime3 && currentTime < timesBay[6].endtime3){
+					bay[6].restriction_duration = timesBay[6].typedesc3;
+				} else if (bay[6].status != undefined) {
+					bay[6].restriction_duration = "No Restrictions";
+				} else {
+					bay[6].restriction_duration = "Retriving Data"
+				}
+		
+				console.log(bay[6].bayID + " : " + bay[6].status + " : " + bay[6].restriction_duration);
 			})
 			
 			.catch(error => {
 				console.log("Restriction Info: " + error);
 			})
 		
-		if(currentTime >= timesBay[2].starttime1 && currentTime < timesBay[2].endtime1){
-			bay[2].restriction_duration = timesBay[2].typedesc1;
-		}else if(currentTime >= timesBay[2].starttime2 && currentTime < timesBay[2].endtime2){
-			bay[2].restriction_duration = timesBay[2].typedesc2;
-		}else if(currentTime >= timesBay[2].starttime3 && currentTime < timesBay[2].endtime3){
-			bay[2].restriction_duration = timesBay[2].typedesc3;
-		} else{
-			bay[2].restriction_duration = "Error";
-		}	
+
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[7].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[7].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[7].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[7].starttime1 = json[0].starttime1,
+				timesBay[7].starttime2 = json[0].starttime2,
+				timesBay[7].starttime3 = json[0].starttime3,
+				timesBay[7].endtime1 = json[0].endtime1,
+				timesBay[7].endtime2 = json[0].endtime2,
+				timesBay[7].endtime3 = json[0].endtime3,
+				timesBay[7].typedesc1 = json[0].typedesc1,
+				timesBay[7].typedesc2 = json[0].typedesc2,
+				timesBay[7].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[7].starttime1 && currentTime < timesBay[7].endtime1){
+					bay[7].restriction_duration = timesBay[7].typedesc1;
+				}else if(currentTime >= timesBay[7].starttime2 && currentTime < timesBay[7].endtime2){
+					bay[7].restriction_duration = timesBay[7].typedesc2;
+				}else if(currentTime >= timesBay[7].starttime3 && currentTime < timesBay[7].endtime3){
+					bay[7].restriction_duration = timesBay[7].typedesc3;
+				} else if (bay[7].status != undefined) {
+					bay[7].restriction_duration = "No Restrictions";
+				} else {
+					bay[7].restriction_duration = "Retriving Data"
+				}
 		
-		console.log(bay[2].bayID + " : " + bay[2].status + " : " + bay[2].restriction_duration);
-	
-	
+				console.log(bay[7].bayID + " : " + bay[7].status + " : " + bay[7].restriction_duration);
+			})
+			
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+		
+
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[8].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[8].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[8].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[8].starttime1 = json[0].starttime1,
+				timesBay[8].starttime2 = json[0].starttime2,
+				timesBay[8].starttime3 = json[0].starttime3,
+				timesBay[8].endtime1 = json[0].endtime1,
+				timesBay[8].endtime2 = json[0].endtime2,
+				timesBay[8].endtime3 = json[0].endtime3,
+				timesBay[8].typedesc1 = json[0].typedesc1,
+				timesBay[8].typedesc2 = json[0].typedesc2,
+				timesBay[8].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[8].starttime1 && currentTime < timesBay[8].endtime1){
+					bay[8].restriction_duration = timesBay[8].typedesc1;
+				}else if(currentTime >= timesBay[8].starttime2 && currentTime < timesBay[8].endtime2){
+					bay[8].restriction_duration = timesBay[8].typedesc2;
+				}else if(currentTime >= timesBay[8].starttime3 && currentTime < timesBay[8].endtime3){
+					bay[8].restriction_duration = timesBay[8].typedesc3;
+				} else if (bay[8].status != undefined) {
+					bay[8].restriction_duration = "No Restrictions";
+				} else {
+					bay[8].restriction_duration = "Retriving Data"
+				}
+		
+				console.log(bay[8].bayID + " : " + bay[8].status + " : " + bay[8].restriction_duration);
+			})
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
+		
+		//console.log('querying Bay ID ' + bay[3].bayID);
+		fetch('https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=' + bay[9].bayID)
+			.then(res => res.json())
+			.then( json => {
+				//console.log(json),
+				//console.log(json[i].status),
+				bay[9].status = json[0].status
+				//console.log(JSON.stringify(bay1.status))
+				//console.log(bay[0])
+			})
+			.catch(error => { 
+				console.log("Bay Info: " + error);
+			})
+			
+		fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[9].bayID)
+			.then(res => res.json())
+			.then(json => {
+				//console.log(json),
+				timesBay[9].starttime1 = json[0].starttime1,
+				timesBay[9].starttime2 = json[0].starttime2,
+				timesBay[9].starttime3 = json[0].starttime3,
+				timesBay[9].endtime1 = json[0].endtime1,
+				timesBay[9].endtime2 = json[0].endtime2,
+				timesBay[9].endtime3 = json[0].endtime3,
+				timesBay[9].typedesc1 = json[0].typedesc1,
+				timesBay[9].typedesc2 = json[0].typedesc2,
+				timesBay[9].typedesc3 = json[0].typedesc3
+				//console.log(timesBay[0])
+				
+				if(currentTime >= timesBay[9].starttime1 && currentTime < timesBay[9].endtime1){
+					bay[9].restriction_duration = timesBay[9].typedesc1;
+				}else if(currentTime >= timesBay[9].starttime2 && currentTime < timesBay[9].endtime2){
+					bay[9].restriction_duration = timesBay[9].typedesc2;
+				}else if(currentTime >= timesBay[9].starttime3 && currentTime < timesBay[9].endtime3){
+					bay[9].restriction_duration = timesBay[9].typedesc3;
+				} else if (bay[9].status != undefined) {
+					bay[9].restriction_duration = "No Restrictions";
+				} else {
+					bay[9].restriction_duration = "Retriving Data"
+				}
+		
+				console.log(bay[9].bayID + " : " + bay[9].status + " : " + bay[9].restriction_duration);
+			})				
+			.catch(error => {
+				console.log("Restriction Info: " + error);
+			})
 	}
 	
 	
@@ -443,16 +772,3 @@ let timeout=null;
 		}, 10000		//10 seconds (testing)
 		//}, 120000		//2 Minutes
 	);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
