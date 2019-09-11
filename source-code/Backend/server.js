@@ -87,14 +87,17 @@ app.get('/parking/:lat/:lng', function (req, res) {
           longitude: result[0].location.longitude,
         },
         status: result[0].status,
-        restrictions: [
-          {
-          "isFree": isFree(restriction[0].typedesc1),
-          "duration": {"normal": restriction[0].duration1,"disablity": restriction[0].disabilityext1},
-          "effectiveonph": restriction[0].effectiveonph1,
-          "time": {"start": restriction[0].starttime1,"end": restriction[0].endtime1},
-          "days": calculateDays(restriction[0].fromday1, restriction[0].today1)
-          }]
+        restrictions: []
+      }
+
+      for (var item in restriction) {
+        result.restrictions.push({
+        "isFree": isFree(item.typedesc1),
+        "duration": {"normal": item.duration1,"disablity": item.disabilityext1},
+        "effectiveonph": item.effectiveonph1,
+        "time": {"start": item.starttime1,"end": item.endtime1},
+        "days": calculateDays(item.fromday1, item.today1)
+        });
       }
       res.send(result)
     })
