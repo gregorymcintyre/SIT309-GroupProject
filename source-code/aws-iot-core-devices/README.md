@@ -9,5 +9,5 @@ $npm i node-fetch
 
 ## Run with
 ```
-$npm start
+$node ./GutterRash.js
 ```
