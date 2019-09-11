@@ -67,13 +67,17 @@ app.get('/parking/:lat/:lng', function (req, res) {
     request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
       
-      function calculateDays(start, end){
-      var days = []
-      var i;
+      function calculateDays(start, end) {
+        var days = []
+        var i;
         for (i = start; i <= end; i++) {
           days.push(parseInt(i))
         }
         return days;
+      }
+      function isFree(str) {
+      var result = str.includes("Meter");
+      return result;
       }
       //res.send(result[0].bay_id) this is how you access the json
       result = {
@@ -85,7 +89,7 @@ app.get('/parking/:lat/:lng', function (req, res) {
         status: result[0].status,
         restrictions: [
           {
-          "isFree": false,
+          "isFree": isFree(restriction[0].typedesc1),
           "duration": {"normal": restriction[0].duration1,"disablity": restriction[0].disabilityext1},
           "effectiveonph": restriction[0].effectiveonph1,
           "time": {"start": restriction[0].starttime1,"end": restriction[0].endtime1},
