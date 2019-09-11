@@ -6,7 +6,15 @@ const app = express()
 const port = 3000;
 const cors = require('cors');
 var weatherData = {}
-
+var convertDate = {
+ "0" : "Sunday",
+ "1" : "Monday",
+ "2" : "Tesuday",
+ "3" : "Wednesday",
+ "4" : "Thursday",
+ "5" : "Friday",
+ "6" : "Sunday"
+}
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -58,7 +66,15 @@ app.get('/parking/:lat/:lng', function (req, res) {
     result = JSON.parse(body)
     request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
-
+      
+      function calculateDays(start, end){
+      var days = []
+      var i;
+        for (i = start; i <= end; i++) {
+          days.push(parseInt(i))
+        }
+        return days;
+      }
       //res.send(result[0].bay_id) this is how you access the json
       result = {
         bay_id: result[0].bay_id,
@@ -66,10 +82,17 @@ app.get('/parking/:lat/:lng', function (req, res) {
           lattitude: result[0].location.latitude,
           longitude: result[0].location.longitude,
         },
-        status: result[0].status
+        status: result[0].status,
+        restrictions: [
+          {
+          "isFree": false,
+          "duration": {"normal": restriction[0].duration1,"disablity": restriction[0].disabilityext1},
+          "effectiveonph": restriction[0].effectiveonph1,
+          "time": {"start": restriction[0].starttime1,"end": restriction[0].endtime1},
+          "days": calculateDays(restriction[0].fromday1, restriction[0].today1)
+          }]
       }
-      //find a way to deconstruct the semi human messages that come through restriction
-      res.send(restriction)
+      res.send(result)
     })
   })
 
