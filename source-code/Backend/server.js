@@ -6,14 +6,23 @@ const app = express()
 const port = 3000;
 const cors = require('cors');
 var weatherData = {}
-var convertDate = {
-  "0": "Sunday",
-  "1": "Monday",
-  "2": "Tesuday",
-  "3": "Wednesday",
-  "4": "Thursday",
-  "5": "Friday",
-  "6": "Sunday"
+function convertDate(start, end) {
+  var convert =
+  {
+    "0": "Sunday",
+    "1": "Monday",
+    "2": "Tesuday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Sunday"
+  }
+  if (start == end) {
+    return "Only on " + convert[start];
+  }
+  else {
+    return convert[start] + " to " + convert[end];
+  }
 }
 app.use(cors());
 
@@ -79,7 +88,7 @@ app.get('/parking/:lat/:lng', function (req, res) {
         var result = str.includes("Meter");
         return result;
       }
-      
+
       result = {
         bay_id: result[0].bay_id,
         location: {
@@ -97,7 +106,8 @@ app.get('/parking/:lat/:lng', function (req, res) {
             "duration": { "normal": restriction[0]['duration' + i], "disablity": restriction[0]['disabilityext' + i] },
             "effectiveonph": restriction[0]['effectiveonph' + i],
             "time": { "start": restriction[0]['starttime' + i], "end": restriction[0]['endtime' + i] },
-            "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i])
+            "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i]),
+            "daysTranslated": convertDate(restriction[0]['fromday' + i],restriction[0]['today' + i])
           });
         }
       }
