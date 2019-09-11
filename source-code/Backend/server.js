@@ -52,8 +52,8 @@ app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current w
 })
 app.get('/parking/:lat/:lng', function (req, res) {
 
-  lat = req.params.lat
-  lng = req.params.lng
+  const {lat, lng} = req.params;
+
   var result = {}
   var restriction = {}
   request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?lat=${lat}&lon=${lng}`, function (err, response, body) {
