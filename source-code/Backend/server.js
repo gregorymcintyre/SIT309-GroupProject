@@ -6,29 +6,14 @@ const app = express()
 const port = 3000;
 const cors = require('cors');
 var weatherData = {}
-function convertDate(start, end) {
-  var convert =
-  {
-    "0": "Sunday",
-    "1": "Monday",
-    "2": "Tesuday",
-    "3": "Wednesday",
-    "4": "Thursday",
-    "5": "Friday",
-    "6": "Sunday"
-  }
-  if (start == end) {
-    return "Only on " + convert[start];
-  }
-  else {
-    return convert[start] + " to " + convert[end];
-  }
-}
+
+
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+
 app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current weather information for lat and long
 
   lat = req.params.lat
@@ -75,7 +60,24 @@ app.get('/parking/:lat/:lng', function (req, res) {
     result = JSON.parse(body)
     request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
-
+      function convertDate(start, end) {
+        var convert =
+        {
+          "0": "Sunday",
+          "1": "Monday",
+          "2": "Tesuday",
+          "3": "Wednesday",
+          "4": "Thursday",
+          "5": "Friday",
+          "6": "Sunday"
+        }
+        if (start == end) {
+          return "Only on " + convert[start];
+        }
+        else {
+          return convert[start] + " to " + convert[end];
+        }
+      }
       function calculateDays(start, end) {
         var days = []
         var i;
@@ -124,6 +126,7 @@ app.get('/parking/fake/:lat/:lng', function (req, res) {
   lng = req.params.lng
 
   res.sendfile("./fakeData.json")
+
 })
 
   app.listen(port, () => console.log(`Listening on port ${port}!`))
