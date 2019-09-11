@@ -124,19 +124,19 @@ function queryBay(bayId, handler) {
 		.then( json => {
 			bay.data.status = json[0].status;
 
-			fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay[0].bayID)
+			fetch('https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=' + bay.bayID)
 				.then(res => res.json())
 				.then(json => {
 					bay.times = _.extend(bay.times, json[0]);
 
 					if (currentTime >= bay.times.starttime1 && currentTime < bay.times.endtime1) {
-						bay[0].restriction_duration = bay.times.typedesc1;
+						bay.data.restriction_duration = bay.times.typedesc1;
 					} else if (currentTime >= bay.times.starttime2 && currentTime < bay.times.endtime2) {
-						bay[0].restriction_duration = bay.times.typedesc2;
+						bay.data.restriction_duration = bay.times.typedesc2;
 					} else if (currentTime >= bay.times.starttime3 && currentTime < bay.times.endtime3) {
-						bay[0].restriction_duration = bay.times.typedesc3;
+						bay.data.restriction_duration = bay.times.typedesc3;
 					} else {
-						bay[0].restriction_duration = "Error";
+						bay.data.restriction_duration = "Error";
 					}
 
 					handler(bay);
