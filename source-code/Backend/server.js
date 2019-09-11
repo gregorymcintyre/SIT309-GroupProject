@@ -7,11 +7,13 @@ const port = 3000;
 const cors = require('cors');
 var weatherData = {}
 
+
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+
 app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current weather information for lat and long
 
   lat = req.params.lat
@@ -58,18 +60,60 @@ app.get('/parking/:lat/:lng', function (req, res) {
     result = JSON.parse(body)
     request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
+      function convertDate(start, end) {
+        var convert =
+        {
+          "0": "Sunday",
+          "1": "Monday",
+          "2": "Tesuday",
+          "3": "Wednesday",
+          "4": "Thursday",
+          "5": "Friday",
+          "6": "Sunday"
+        }
+        if (start == end) {
+          return "Only on " + convert[start];
+        }
+        else {
+          return convert[start] + " to " + convert[end];
+        }
+      }
+      function calculateDays(start, end) {
+        var days = []
+        var i;
+        for (i = start; i <= end; i++) {
+          days.push(parseInt(i))
+        }
+        return days;
+      }
+      function isFree(str) {
+        var result = str.includes("Meter");
+        return result;
+      }
 
-      //res.send(result[0].bay_id) this is how you access the json
       result = {
         bay_id: result[0].bay_id,
         location: {
           lattitude: result[0].location.latitude,
           longitude: result[0].location.longitude,
         },
-        status: result[0].status
+        status: result[0].status,
+        restrictions: []
       }
-      //find a way to deconstruct the semi human messages that come through restriction
-      res.send(restriction)
+
+      for (var i = 1; i <= 6; i++) {
+        if (restriction[0]['typedesc' + i]) {
+          result.restrictions.push({
+            "isFree": isFree(restriction[0]['typedesc' + i]),
+            "duration": { "normal": restriction[0]['duration' + i], "disablity": restriction[0]['disabilityext' + i] },
+            "effectiveonph": restriction[0]['effectiveonph' + i],
+            "time": { "start": restriction[0]['starttime' + i], "end": restriction[0]['endtime' + i] },
+            "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i]),
+            "daysTranslated": convertDate(restriction[0]['fromday' + i],restriction[0]['today' + i])
+          });
+        }
+      }
+      res.send(result)
     })
   })
 
@@ -77,5 +121,12 @@ app.get('/parking/:lat/:lng', function (req, res) {
 
 
 })
+app.get('/parking/fake/:lat/:lng', function (req, res) {
+  lat = req.params.lat
+  lng = req.params.lng
 
-app.listen(port, () => console.log(`Listening on port ${port}!`))
+  res.sendfile("./fakeData.json")
+
+})
+
+  app.listen(port, () => console.log(`Listening on port ${port}!`))
