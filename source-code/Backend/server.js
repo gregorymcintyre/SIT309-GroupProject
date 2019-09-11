@@ -90,7 +90,7 @@ app.get('/parking/:lat/:lng', function (req, res) {
         restrictions: []
       }
 
-      for (var item in restriction) {
+      for (var item of restriction) {
         result.restrictions.push({
         "isFree": isFree(item.typedesc1),
         "duration": {"normal": item.duration1,"disablity": item.disabilityext1},
