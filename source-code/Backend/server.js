@@ -7,13 +7,13 @@ const port = 3000;
 const cors = require('cors');
 var weatherData = {}
 var convertDate = {
- "0" : "Sunday",
- "1" : "Monday",
- "2" : "Tesuday",
- "3" : "Wednesday",
- "4" : "Thursday",
- "5" : "Friday",
- "6" : "Sunday"
+  "0": "Sunday",
+  "1": "Monday",
+  "2": "Tesuday",
+  "3": "Wednesday",
+  "4": "Thursday",
+  "5": "Friday",
+  "6": "Sunday"
 }
 app.use(cors());
 
@@ -66,7 +66,7 @@ app.get('/parking/:lat/:lng', function (req, res) {
     result = JSON.parse(body)
     request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
-      
+
       function calculateDays(start, end) {
         var days = []
         var i;
@@ -76,10 +76,10 @@ app.get('/parking/:lat/:lng', function (req, res) {
         return days;
       }
       function isFree(str) {
-      var result = str.includes("Meter");
-      return result;
+        var result = str.includes("Meter");
+        return result;
       }
-      //res.send(result[0].bay_id) this is how you access the json
+      
       result = {
         bay_id: result[0].bay_id,
         location: {
@@ -93,11 +93,11 @@ app.get('/parking/:lat/:lng', function (req, res) {
       for (var i = 1; i <= 6; i++) {
         if (restriction[0]['typedesc' + i]) {
           result.restrictions.push({
-          "isFree": isFree(restriction[0]['typedesc' + i]),
-          "duration": {"normal": restriction[0]['duration' + i],"disablity": restriction[0]['disabilityext' + i]},
-          "effectiveonph": restriction[0]['effectiveonph' + i],
-          "time": {"start": restriction[0]['starttime' + i],"end": restriction[0]['endtime' + i]},
-          "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i])
+            "isFree": isFree(restriction[0]['typedesc' + i]),
+            "duration": { "normal": restriction[0]['duration' + i], "disablity": restriction[0]['disabilityext' + i] },
+            "effectiveonph": restriction[0]['effectiveonph' + i],
+            "time": { "start": restriction[0]['starttime' + i], "end": restriction[0]['endtime' + i] },
+            "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i])
           });
         }
       }
