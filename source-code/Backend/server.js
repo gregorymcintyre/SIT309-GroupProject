@@ -50,16 +50,18 @@ app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current w
   });
 
 })
-app.get('/parking/:lat/:lng', function (req, res) {
+app.get('/parking/:BayId', function (req, res) {
 
   lat = req.params.lat
   lng = req.params.lng
+  bay_id = req.params.BayId
   var result = {}
   var restriction = {}
-  request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?lat=${lat}&lon=${lng}`, function (err, response, body) {
+  request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=${bay_id}`, function (err, response, body) {
     result = JSON.parse(body)
-    request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?BayID=${result[0].bay_id}`, function (err, response, body) {
+    request.get(`https://data.melbourne.vic.gov.au/resource/ntht-5rk7.json?bayid=${bay_id}`, function (err, response, body) {
       restriction = JSON.parse(body)
+
       function convertDate(start, end) {
         var convert =
         {
@@ -79,10 +81,18 @@ app.get('/parking/:lat/:lng', function (req, res) {
         }
       }
       function calculateDays(start, end) {
+        if (start == 1 && end == 0) {
+          end = 7
+        }
         var days = []
         var i;
         for (i = start; i <= end; i++) {
           days.push(parseInt(i))
+        }
+
+        if(days.includes(7)) {
+          days.pop()
+          days.unshift(0)
         }
         return days;
       }
@@ -109,7 +119,7 @@ app.get('/parking/:lat/:lng', function (req, res) {
             "effectiveonph": restriction[0]['effectiveonph' + i],
             "time": { "start": restriction[0]['starttime' + i], "end": restriction[0]['endtime' + i] },
             "days": calculateDays(restriction[0]['fromday' + i], restriction[0]['today' + i]),
-            "daysTranslated": convertDate(restriction[0]['fromday' + i],restriction[0]['today' + i])
+            "daysTranslated": convertDate(restriction[0]['fromday' + i], restriction[0]['today' + i])
           });
         }
       }
@@ -128,5 +138,31 @@ app.get('/parking/fake/:lat/:lng', function (req, res) {
   res.sendfile("./fakeData.json")
 
 })
+app.get('/parking/multiple/:lat/:lng', function (req, res) {
+  lat = req.params.lat
+  lng = req.params.lng
+  var result = {}
+  var result2 = []
+  var restriction = {}
+  request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?$where=within_circle(location,${lat},${lng},500)`, function (err, response, body) {
+    result = JSON.parse(body)
 
-  app.listen(port, () => console.log(`Listening on port ${port}!`))
+    if(Object.keys(result).length > 10) {
+        result = result.slice(0,10)
+    }
+    lastElement = Object.keys(result).length
+    console.log(lastElement)
+    Object.keys(result).forEach(function (key) {
+      bayId = result[key].bay_id
+      request.get(`http://localhost:3000/parking/${bayId}`, function (err, response, body) {
+        result2.push(JSON.parse(body))
+        if (result2.length >= lastElement) {
+          console.log(result2)
+          res.send(result2)
+        }
+      })
+    })
+  })
+})
+
+app.listen(port, () => console.log(`Listening on port ${port}!`))
