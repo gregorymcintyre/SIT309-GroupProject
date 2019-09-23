@@ -52,9 +52,8 @@ app.get('/weather/current/:lat/:lng', function (req, res) { //Retreive current w
 })
 app.get('/parking/:BayId', function (req, res) {
 
-  lat = req.params.lat
-  lng = req.params.lng
   bay_id = req.params.BayId
+
   var result = {}
   var restriction = {}
   request.get(`https://data.melbourne.vic.gov.au/resource/vh2v-4nfs.json?bay_id=${bay_id}`, function (err, response, body) {
