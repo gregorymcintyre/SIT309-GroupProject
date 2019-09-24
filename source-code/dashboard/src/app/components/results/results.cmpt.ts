@@ -47,6 +47,8 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 		static: false
 	}) mapView: ElementRef;
 
+	public loadingParks: boolean = false;
+
 	private map: google.maps.Map;
 	private markers: any = {
 		me: null,
@@ -81,7 +83,9 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 				this.map.setCenter(params.coords);
 
 				this.markers.pin.setPosition(params.coords);
+				this.loadingParks = true;
 				this.parkingService.getClosestParks(params.coords.lat(), params.coords.lng(), response => {
+					this.loadingParks = false;
 					this.markers.parks = [];
 					console.log(response);
 					_.each(response, park => {

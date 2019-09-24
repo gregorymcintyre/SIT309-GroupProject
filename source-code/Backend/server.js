@@ -138,6 +138,7 @@ app.get('/parking/fake/:lat/:lng', function (req, res) {
 
 })
 app.get('/parking/multiple/:lat/:lng', function (req, res) {
+  console.log('getting parks');
   lat = req.params.lat
   lng = req.params.lng
   var result = {}
@@ -150,6 +151,14 @@ app.get('/parking/multiple/:lat/:lng', function (req, res) {
         result = result.slice(0,10)
     }
     lastElement = Object.keys(result).length
+
+    // Fixed added by Tim to prevent empty results from fucking everything lol
+    if (lastElement == 0) {
+      // Sends fucking nothing lol
+      res.send(result2);
+    }
+
+
     console.log(lastElement)
     Object.keys(result).forEach(function (key) {
       bayId = result[key].bay_id

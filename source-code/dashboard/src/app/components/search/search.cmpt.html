@@ -10,7 +10,7 @@
 		</mat-autocomplete>
 	</div>
 	<div fxFlex="0 0 auto" style="vertical-align:bottom">
-		<button mat-icon-button color="accent" matTooltip="Use Current Location" (click)="useUserLocation()">
+		<button mat-icon-button [color]="usingUserLocation ? 'primary' : 'accent'" matTooltip="Use Current Location" (click)="useUserLocation()">
 			<mat-icon fontSet="fa" fontIcon="fa-location-arrow"></mat-icon>
 		</button>
 	</div>
@@ -22,7 +22,7 @@
 		<mat-icon inline="true" fontSet="fas" fontIcon="fa-angle-down" *ngIf="!showAdvancedSearch"></mat-icon>
 		<mat-icon inline="true" fontSet="fas" fontIcon="fa-angle-up" *ngIf="showAdvancedSearch"></mat-icon>
 	</button>
-	<button fxFlex.gt-md="33.33%" mat-stroked-button color="warn">
+	<button fxFlex.gt-md="33.33%" mat-stroked-button color="warn" (click)="clearSearch()">
 		<mat-icon inline="true" fontSet="fas" fontIcon="fa-eraser"></mat-icon> Clear Search
 	</button>
 	<button fxFlex.gt-md="33.33%" *ngIf="!showAdvancedSearch" mat-raised-button color="primary" (click)="updateQuery()">
@@ -48,15 +48,15 @@
 			<div>
 				<mat-checkbox [checked]="true">On Street Parks</mat-checkbox>
 			</div>
-	     	<div>
-	     		<mat-checkbox [checked]="true">Individual Parks</mat-checkbox>
-	     	</div>
-	     	<div>
-	     		<mat-checkbox [checked]="true">Disabled Parks</mat-checkbox>
-	     	</div>
-	     	<div>
-	     		<mat-checkbox [checked]="true">Metered Parks</mat-checkbox>
-	     	</div>
+			<div>
+				<mat-checkbox [checked]="true">Individual Parks</mat-checkbox>
+			</div>
+			<div>
+				<mat-checkbox [checked]="true">Disabled Parks</mat-checkbox>
+			</div>
+			<div>
+				<mat-checkbox [checked]="true">Metered Parks</mat-checkbox>
+			</div>
 		</div>
 	</div>
 	<div>
@@ -64,4 +64,8 @@
 			<mat-icon inline="true" fontSet="fas" fontIcon="fa-search"></mat-icon> Find Park
 		</button>
 	</div>
+</div>
+
+<div class="spinner-overlay" *ngIf="gettingUserLocation">
+	<mat-spinner diameter="24"></mat-spinner>
 </div>

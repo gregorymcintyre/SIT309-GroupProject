@@ -32,8 +32,12 @@ export class SearchService {
 		return locality.short_name;
 	}
 
-	setParams(params: SearchParams) {
-		this.params = _.extend(this.params, params);
+	setParams(params: SearchParams, hard: boolean = false) {
+		if (hard) {
+			this.params = params;
+		} else {
+			this.params = _.extend(this.params, params);
+		}
 
 		if (this.params.coords == null && this.params.placeId) {
 			this.placesService.getDetails({

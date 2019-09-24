@@ -40,5 +40,8 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="spinner-overlay" *ngIf="loadingParks">
+			<mat-spinner diameter="24"></mat-spinner>
+		</div>
 	</mat-card-content>
 </mat-card>

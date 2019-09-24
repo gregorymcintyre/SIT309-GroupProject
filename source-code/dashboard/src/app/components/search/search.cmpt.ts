@@ -38,6 +38,9 @@ export class SearchCmpt implements OnInit {
 	public selectedPrediction: google.maps.places.QueryAutocompletePrediction;
 	public placeSuggestions: google.maps.places.QueryAutocompletePrediction[] = [];
 	public showAdvancedSearch: boolean = false;
+	public usingUserLocation: boolean = false;
+	public gettingUserLocation: boolean = false;
+	
 	private typingTimeout = null;
 
 	autocompleteService: google.maps.places.AutocompleteService;
@@ -54,13 +57,19 @@ export class SearchCmpt implements OnInit {
 	useUserLocation() {
 		var geocoder = new google.maps.Geocoder();
 
+		console.log('Checking if geolocation is enabled');
 		if (navigator.geolocation) {
+			console.log('Geolocation is enabled');
+			this.gettingUserLocation = true;
 			navigator.geolocation.getCurrentPosition(position => {
+				console.log('Retreived geolocation position');
 				var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
 				geocoder.geocode({
 					location: coords,
 				}, (results, status) => {
+					this.usingUserLocation = true;
+					this.gettingUserLocation = false;
 					this.searchService.setParams({
 						coords: coords,
 						locality: this.searchService.getLocality(results[0].address_components),
@@ -87,11 +96,16 @@ export class SearchCmpt implements OnInit {
 	}
 
 	selectPrediction(event) {
+		this.usingUserLocation = false;
 		this.selectedPrediction = event.option.value as google.maps.places.QueryAutocompletePrediction;
 	}
 
 	displayPrediction(prediction) {
 		return prediction.description;
+	}
+
+	clearSearch() {
+		this.searchService.setParams({}, true);
 	}
 
 	updateQuery() {
