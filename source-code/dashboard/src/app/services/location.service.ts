@@ -44,6 +44,8 @@ export class LocationService {
 						handler(this.position);
 					});
 					handler(this.position);
+				}, () => {}, {
+					enableHighAccuracy: true
 				});
 			}
 		} else {
