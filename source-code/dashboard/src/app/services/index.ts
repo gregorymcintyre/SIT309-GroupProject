@@ -1,4 +1,3 @@
-import {SearchService} from './search.service';
-import {WeatherService} from './weather.service';
-
-export {SearchService, WeatherService};
+export * from './search.service';
+export * from './weather.service';
+export * from './parking.service';

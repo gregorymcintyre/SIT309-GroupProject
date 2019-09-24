@@ -10,6 +10,7 @@ export class WeatherService {
 
 	getCurrentWeather(lat: number, lng: number, handler) {
 		this.http.get(`${this.weatherUri}/current/${lat}/${lng}`).subscribe(response => {
+			console.log(response);
 			handler(response);
 		});
 	}

@@ -60,3 +60,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 		position:relative;
 	}
 }
+
+table.mat-table {
+	width:100%;
+	border-collapse:collapse;
+	margin-top:10px;
+
+	td, th {
+		padding:10px;
+		text-align:left;
+		border:1px solid rgba(0,0,0,0.15);
+	}
+
+	tr:nth-child(even) {
+		background-color:rgba(0,0,0,0.15);
+	}
+}

@@ -12,5 +12,35 @@
 	</mat-card-header>
 	<mat-card-content>
 		<div #mapView class="google-map" [style.display]="resultsView.value == 'map' ? 'block' : 'none'"></div>
+		<div *ngIf="resultsView.value == 'list'">
+			<table class="mat-table">
+				<thead>
+					<tr>
+						<th>Bay ID</th>
+						<th>Distance</th>
+						<th>Status</th>
+						<th>Restrictions</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let park of markers.parks">
+						<td>{{park.bayId}}</td>
+						<td>x km</td>
+						<td>{{park.status}}</td>
+						<td>
+							<div *ngFor="let restriction of park.restrictions">
+								{{restriction.duration.normal / 60 }}P {{restriction.time.start}} - {{restriction.time.end}} {{restriction.daysTranslated}}
+							</div>
+						</td>
+						<td>
+							<button mat-raised-button color="primary" (click)="doNothing()">
+								<mat-icon>info</mat-icon> More Info
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</mat-card-content>
 </mat-card>

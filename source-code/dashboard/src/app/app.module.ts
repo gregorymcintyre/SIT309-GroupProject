@@ -11,7 +11,7 @@ import {MaterialModule} from './modules/material.module';
 
 import {AppCmpt} from './app.cmpt';
 import {HeaderCmpt, SearchCmpt, WeatherCmpt, ResultsCmpt} from './components';
-import {SearchService, WeatherService} from './services';
+import {SearchService, WeatherService, ParkingService} from './services';
 import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 
 @NgModule({
@@ -39,6 +39,7 @@ import {DashboardPage, NotFoundPage, ActivityPage} from './pages';
 	providers: [
 		SearchService,
 		WeatherService,
+		ParkingService,
 	],
 	bootstrap: [AppCmpt]
 })

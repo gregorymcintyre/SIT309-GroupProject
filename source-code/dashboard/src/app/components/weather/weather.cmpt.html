@@ -9,7 +9,7 @@
 					<div>
 						<mat-icon>wb_sunny</mat-icon> <span class="temperature">{{currentWeather.temperature}}ºC</span>
 					</div>
-					<div class="last-checked">{{currentWeather.time | date: 'h:mmaa, LLL d'}}</div>
+					<div class="last-checked">Last Checked: {{currentWeather.time | date: 'h:mmaa, LLL d'}}</div>
 				</div>
 			</div>
 			<div fxFlex="50%">
@@ -21,7 +21,7 @@
 		<div class="mat-table">
 			<div class="mat-row">
 				<div class="mat-cell">Wind</div>
-				<div class="mat-cell">SSE? {{currentWeather.windSpeed}} m/s</div>
+				<div class="mat-cell">{{currentWeather.windBearing}} {{currentWeather.windSpeed}} m/s</div>
 			</div>
 			<div class="mat-row">
 				<div class="mat-cell">Humidity</div>
@@ -32,8 +32,6 @@
 				<div class="mat-cell">{{currentWeather.uvIndex}}</div>
 			</div>
 		</div>
-
-		{{currentWeather | json}}
 	</mat-card-content>
 	<div class="spinner-overlay" *ngIf="searchParams.locality == null || currentWeather == null">
 		<mat-spinner diameter="24"></mat-spinner>

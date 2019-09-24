@@ -1,6 +1,6 @@
 import {Component, ViewChild, ElementRef, OnInit, AfterViewInit} from '@angular/core';
 
-import {SearchService} from '../../services';
+import {SearchService, ParkingService} from '../../services';
 
 import * as _ from 'underscore';
 import * as googleMapStyles from '../../config/google-map-styles.js';
@@ -42,7 +42,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 		},
 	}
 
-	constructor(private searchService: SearchService) {}
+	constructor(private searchService: SearchService, private parkingService: ParkingService) {}
 
 	ngOnInit() {
 		this.searchService.subscribeToParams(params => {
@@ -50,6 +50,29 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 				this.map.setCenter(params.coords);
 
 				this.markers.pin.setPosition(params.coords);
+				this.parkingService.getClosestParks(params.coords.lat(), params.coords.lng(), response => {
+					this.markers.parks = [];
+					console.log(response);
+					_.each(response, park => {
+						var marker = new google.maps.Marker({
+							map: this.map,
+							icon: this.icons.park,
+							position: {
+								lat: parseFloat(park.location.lattitude),
+								lng: parseFloat(park.location.longitude),
+							},
+							title: `Bay ${park.bay_id}`,
+						});
+
+						marker.status = park.status;
+						marker.bayId = park.bay_id;
+						marker.restrictions = park.restrictions;
+
+						marker.addListener('click', this.parkCallback());
+
+						this.markers.parks.push(marker);
+					});
+				});
 			}
 		});
 	}
@@ -85,17 +108,15 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 
 				this.infoWindow = new google.maps.InfoWindow();
 
-				this.markers.parks.push(new google.maps.Marker({
-					map: this.map,
-					icon: this.icons.park,
-					position: {
-						lat: -38.1851821,
-						lng: 144.3153567,
-					},
-					title: 'Park 01',
-				}));
-
-				this.markers.parks[0].addListener('click', this.parkCallback());
+				// this.markers.parks.push(new google.maps.Marker({
+				// 	map: this.map,
+				// 	icon: this.icons.park,
+				// 	position: {
+				// 		lat: -38.1851821,
+				// 		lng: 144.3153567,
+				// 	},
+				// 	title: 'Park 01',
+				// }));
 			});
 
 			navigator.geolocation.watchPosition(position => {
@@ -117,8 +138,13 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 		};
 	}
 
+	doNothing() {
+		alert('Surprise, surprise, I do nothing');
+	}
+
 	parkInfo(marker) {
 		var html = '';
+		console.log(marker);
 
 		html += `
 			<style>
@@ -160,8 +186,8 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 			</style>
 			<div id="content">
 				<div class="park-modal-header">
-					<div class="park-modal-title">Bay ID: 6181</div>
-					<div class="park-modal-address">101 Parking Lane, Melbourne VIC 3000</div>
+					<div class="park-modal-title">Bay ID: ${marker.bayId}</div>
+					<div class="park-modal-address">Address here in api</div>
 				</div>
 				<div class="park-modal-body">
 					<table class="park-modal-attributes">
@@ -169,6 +195,10 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 							<tr>
 								<th>Rate</th>
 								<td>$500 per hour</td>
+							</tr>
+							<tr>
+								<th>Data</th>
+								<td>${JSON.stringify(marker.restrictions)}</td>
 							</tr>
 							<tr>
 								<th>Restrictions</th>
