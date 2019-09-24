@@ -31,12 +31,10 @@
 						<td>{{park.bayId}}</td>
 						<td>x km</td>
 						<td>{{park.status}}</td>
-						<td>
-							{{park.restrictionsToText()}}
-						</td>
+						<td [innerHTML]="park.restrictionsToText()"></td>
 						<td>
 							<button mat-raised-button color="primary" (click)="doNothing()">
-								<mat-icon fontSet="fas" fontIcon="fa-info-circle"></mat-icon> More Info
+								<mat-icon fontSet="fas" fontIcon="fa-info-circle" inline="true"></mat-icon> More Info
 							</button>
 						</td>
 					</tr>

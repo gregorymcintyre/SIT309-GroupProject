@@ -16,6 +16,14 @@ class ParkMarker extends google.maps.Marker {
 		super(args);
 	}
 
+	durationToFriendly(duration): string {
+		if (duration < 60) {
+			return `${duration}M`;
+		} else {
+			return `${duration / 60}P`;
+		}
+	}
+
 	restrictionsToText(): string {
 		if (!this.restrictionsHtml) {
 			var html = '';
@@ -23,7 +31,7 @@ class ParkMarker extends google.maps.Marker {
 			for (var restriction of this.restrictions) {
 				html += `
 					<div>
-						${restriction.duration.normal / 60 }P ${restriction.time.start} - ${restriction.time.end} ${restriction.daysTranslated}
+						${this.durationToFriendly(restriction.duration.normal)} ${restriction.time.start} - ${restriction.time.end} ${restriction.daysTranslated}
 					</div>
 				`;
 			}
@@ -50,6 +58,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 	public loadingParks: boolean = false;
 
 	private map: google.maps.Map;
+	private lastCoords: google.maps.LatLng;
 	private markers: any = {
 		me: null,
 		parks: [],
@@ -83,7 +92,8 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 
 	ngOnInit() {
 		this.searchService.subscribeToParams(params => {
-			if (params.coords) {
+			if (params.coords && !_.isEqual(params.coords, this.lastCoords)) {
+				this.lastCoords = params.coords;
 				this.map.setCenter(params.coords);
 
 				this.markers.pin.setPosition(params.coords);
