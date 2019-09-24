@@ -11,6 +11,32 @@ import * as googleMapStyles from '../../config/google-map-styles.js';
 	styleUrls: ['./results.cmpt.scss'],
 })
 
+class ParkMarker extends google.maps.Marker {
+	restrictions: object[];
+	status: string;
+	bayId: string;
+
+	restrictionsHtml: string;
+
+	restrictionsToText(): string {
+		if (!restrictionsHtml) {
+			var html = '';
+
+			for (var restriction of park.restrictions) {
+				html += `
+					<div>
+						${restriction.duration.normal / 60 }P ${restriction.time.start} - ${restriction.time.end} ${restriction.daysTranslated}
+					</div>
+				`;
+			}
+
+			restrictionsHtml = html;
+		}
+
+		return restrictionsHtml;
+	}
+}
+
 export class ResultsCmpt implements OnInit, AfterViewInit {
 	@ViewChild('mapView', {
 		static: false
@@ -54,7 +80,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 					this.markers.parks = [];
 					console.log(response);
 					_.each(response, park => {
-						var marker = new google.maps.Marker({
+						var marker: ParkMarker = new google.maps.Marker({
 							map: this.map,
 							icon: this.icons.park,
 							position: {

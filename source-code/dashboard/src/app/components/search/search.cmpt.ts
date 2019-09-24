@@ -46,13 +46,12 @@ export class SearchCmpt implements OnInit {
 	}
 
 	ngOnInit() {
+		// Enable when the application is deployed
 		// this.useUserLocation();
 	}
 
 	useUserLocation() {
 		var geocoder = new google.maps.Geocoder();
-
-		console.log("checking user location");
 
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(position => {
@@ -61,7 +60,6 @@ export class SearchCmpt implements OnInit {
 				geocoder.geocode({
 					location: coords,
 				}, (results, status) => {
-					console.log(status);
 					this.searchService.setParams({
 						coords: coords,
 						locality: this.searchService.getLocality(results[0].address_components),

@@ -29,9 +29,7 @@
 						<td>x km</td>
 						<td>{{park.status}}</td>
 						<td>
-							<div *ngFor="let restriction of park.restrictions">
-								{{restriction.duration.normal / 60 }}P {{restriction.time.start}} - {{restriction.time.end}} {{restriction.daysTranslated}}
-							</div>
+							{{park.restrictionsToText()}}
 						</td>
 						<td>
 							<button mat-raised-button color="primary" (click)="doNothing()">
