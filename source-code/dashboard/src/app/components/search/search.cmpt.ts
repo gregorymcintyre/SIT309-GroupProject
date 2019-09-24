@@ -38,6 +38,7 @@ export class SearchCmpt implements OnInit {
 	public selectedPrediction: google.maps.places.QueryAutocompletePrediction;
 	public placeSuggestions: google.maps.places.QueryAutocompletePrediction[] = [];
 	public showAdvancedSearch: boolean = false;
+	private typingTimeout = null;
 
 	autocompleteService: google.maps.places.AutocompleteService;
 
@@ -70,17 +71,22 @@ export class SearchCmpt implements OnInit {
 	}
 
 	updateSuggestions(field) {
-		if (field.value.length > 3) {
-			this.autocompleteService.getQueryPredictions({
-				input: field.value,
-			}, response => {
-				this.placeSuggestions = response;
-			});
-		}
+		// Waits for the user to stop typing before searching
+		this.typingTimeout = setTimeout(() => {
+			clearTimeout(this.typingTimeout);
+
+			if (field.value.length > 3) {
+				this.autocompleteService.getQueryPredictions({
+					input: field.value,
+				}, response => {
+					this.placeSuggestions = response;
+				});
+			}
+
+		}, 800);
 	}
 
 	selectPrediction(event) {
-		console.log(event);
 		this.selectedPrediction = event.option.value as google.maps.places.QueryAutocompletePrediction;
 	}
 

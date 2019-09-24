@@ -10,23 +10,23 @@
 		</mat-autocomplete>
 	</div>
 	<div fxFlex="0 0 auto" style="vertical-align:bottom">
-		<button mat-icon-button color="accent" title="Use Current Location" (click)="useUserLocation()">
-			<mat-icon>location_searching</mat-icon>
+		<button mat-icon-button color="accent" matTooltip="Use Current Location" (click)="useUserLocation()">
+			<mat-icon fontSet="fa" fontIcon="fa-location-arrow"></mat-icon>
 		</button>
 	</div>
 </div>
 
-<div fxLayoutGap="10px">
-	<button fxFlex="33.33%" mat-raised-button color="accent" (click)="showAdvancedSearch = !showAdvancedSearch">
+<div fxLayout="row" fxLayout.lt-lg="column true" fxLayoutGap="10px">
+	<button fxFlex.gt-md="33.33%" mat-stroked-button color="accent" (click)="showAdvancedSearch = !showAdvancedSearch">
 		Advanced Search
-		<mat-icon *ngIf="!showAdvancedSearch">keyboard_arrow_down</mat-icon>
-		<mat-icon *ngIf="showAdvancedSearch">keyboard_arrow_up</mat-icon>
+		<mat-icon inline="true" fontSet="fas" fontIcon="fa-angle-down" *ngIf="!showAdvancedSearch"></mat-icon>
+		<mat-icon inline="true" fontSet="fas" fontIcon="fa-angle-up" *ngIf="showAdvancedSearch"></mat-icon>
 	</button>
-	<button fxFlex="33.33%" mat-raised-button color="warn">
-		<mat-icon>clear</mat-icon> Clear Search
+	<button fxFlex.gt-md="33.33%" mat-stroked-button color="warn">
+		<mat-icon inline="true" fontSet="fas" fontIcon="fa-eraser"></mat-icon> Clear Search
 	</button>
-	<button fxFlex="33.33%" *ngIf="!showAdvancedSearch" mat-raised-button color="primary" (click)="updateQuery()">
-		<mat-icon>search</mat-icon> Find Park
+	<button fxFlex.gt-md="33.33%" *ngIf="!showAdvancedSearch" mat-raised-button color="primary" (click)="updateQuery()">
+		<mat-icon inline="true" fontSet="fas" fontIcon="fa-search"></mat-icon> Find Park
 	</button>
 </div>
 
@@ -44,7 +44,7 @@
 	</div>
 	<div>
 		<mat-label>Options:</mat-label>
-		<div fxLayout="row" fxLayoutGap="10px">
+		<div fxLayout="row true" fxLayoutGap="10px">
 			<div>
 				<mat-checkbox [checked]="true">On Street Parks</mat-checkbox>
 			</div>
@@ -61,7 +61,7 @@
 	</div>
 	<div>
 		<button mat-raised-button class="mat-button-block" color="primary" (click)="updateQuery()">
-			<mat-icon>search</mat-icon> Find Park
+			<mat-icon inline="true" fontSet="fas" fontIcon="fa-search"></mat-icon> Find Park
 		</button>
 	</div>
 </div>

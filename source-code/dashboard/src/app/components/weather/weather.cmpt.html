@@ -1,6 +1,9 @@
 <mat-card>
 	<mat-card-header>
-		<mat-card-title>Current Weather in {{searchParams.locality}}</mat-card-title>
+		<mat-card-title>
+			<span *ngIf="currentWeather">Current Weather in {{searchParams.locality}}</span>
+			<span *ngIf="!currentWeather">No weather available</span>
+		</mat-card-title>
 	</mat-card-header>
 	<mat-card-content *ngIf="currentWeather != null">
 		<div fxLayout="row">
@@ -33,7 +36,7 @@
 			</div>
 		</div>
 	</mat-card-content>
-	<div class="spinner-overlay" *ngIf="searchParams.locality == null || currentWeather == null">
+	<div class="spinner-overlay" *ngIf="searchParams.locality == null && currentWeather != null">
 		<mat-spinner diameter="24"></mat-spinner>
 	</div>
 </mat-card>

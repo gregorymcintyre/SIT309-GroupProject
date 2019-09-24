@@ -5,24 +5,22 @@ import {SearchService, ParkingService} from '../../services';
 import * as _ from 'underscore';
 import * as googleMapStyles from '../../config/google-map-styles.js';
 
-@Component({
-	selector: 'results',
-	templateUrl: './results.cmpt.html',
-	styleUrls: ['./results.cmpt.scss'],
-})
-
 class ParkMarker extends google.maps.Marker {
-	restrictions: object[];
+	restrictions: any[];
 	status: string;
 	bayId: string;
 
 	restrictionsHtml: string;
 
+	constructor(args) {
+		super(args);
+	}
+
 	restrictionsToText(): string {
-		if (!restrictionsHtml) {
+		if (!this.restrictionsHtml) {
 			var html = '';
 
-			for (var restriction of park.restrictions) {
+			for (var restriction of this.restrictions) {
 				html += `
 					<div>
 						${restriction.duration.normal / 60 }P ${restriction.time.start} - ${restriction.time.end} ${restriction.daysTranslated}
@@ -30,12 +28,19 @@ class ParkMarker extends google.maps.Marker {
 				`;
 			}
 
-			restrictionsHtml = html;
+			this.restrictionsHtml = html;
 		}
 
-		return restrictionsHtml;
+		return this.restrictionsHtml;
 	}
 }
+
+@Component({
+	selector: 'results',
+	templateUrl: './results.cmpt.html',
+	styleUrls: ['./results.cmpt.scss'],
+})
+
 
 export class ResultsCmpt implements OnInit, AfterViewInit {
 	@ViewChild('mapView', {
@@ -80,7 +85,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 					this.markers.parks = [];
 					console.log(response);
 					_.each(response, park => {
-						var marker: ParkMarker = new google.maps.Marker({
+						var marker: ParkMarker = new ParkMarker({
 							map: this.map,
 							icon: this.icons.park,
 							position: {
