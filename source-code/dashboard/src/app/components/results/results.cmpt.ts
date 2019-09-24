@@ -1,6 +1,6 @@
 import {Component, ViewChild, ElementRef, OnInit, AfterViewInit} from '@angular/core';
 
-import {SearchService, ParkingService} from '../../services';
+import {SearchService, ParkingService, LocationService} from '../../services';
 
 import * as _ from 'underscore';
 import * as googleMapStyles from '../../config/google-map-styles.js';
@@ -61,9 +61,13 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 			scaledSize: new google.maps.Size(32, 32),
 			url: '/assets/markers/car.svg',
 		},
-		park: {
+		unoccupiedPark: {
 			scaledSize: new google.maps.Size(32, 32),
-			url: '/assets/markers/park.svg',
+			url: '/assets/markers/unoccupied_park.svg',
+		},
+		presentPark: {
+			scaledSize: new google.maps.Size(32, 32),
+			url: '/assets/markers/present_park.svg',
 		},
 		me: {
 			scaledSize: new google.maps.Size(32, 32),
@@ -75,7 +79,7 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 		},
 	}
 
-	constructor(private searchService: SearchService, private parkingService: ParkingService) {}
+	constructor(private searchService: SearchService, private parkingService: ParkingService, private locationService: LocationService) {}
 
 	ngOnInit() {
 		this.searchService.subscribeToParams(params => {
@@ -83,84 +87,81 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 				this.map.setCenter(params.coords);
 
 				this.markers.pin.setPosition(params.coords);
-				this.loadingParks = true;
-				this.parkingService.getClosestParks(params.coords.lat(), params.coords.lng(), response => {
-					this.loadingParks = false;
-					this.markers.parks = [];
-					console.log(response);
-					_.each(response, park => {
-						var marker: ParkMarker = new ParkMarker({
-							map: this.map,
-							icon: this.icons.park,
-							position: {
-								lat: parseFloat(park.location.lattitude),
-								lng: parseFloat(park.location.longitude),
-							},
-							title: `Bay ${park.bay_id}`,
-						});
-
-						marker.status = park.status;
-						marker.bayId = park.bay_id;
-						marker.restrictions = park.restrictions;
-
-						marker.addListener('click', this.parkCallback());
-
-						this.markers.parks.push(marker);
-					});
-				});
+				this.loadParks();
 			}
 		});
 	}
 
+	loadParks() {
+		this.loadingParks = true;
+		this.parkingService.getClosestParks(this.map.getCenter().lat(), this.map.getCenter().lng(), response => {
+			this.loadingParks = false;
+
+			for (var marker of this.markers.parks) {
+				marker.setMap(null);
+			}
+
+			this.markers.parks = [];
+			console.log(response);
+			_.each(response, park => {
+				var marker: ParkMarker = new ParkMarker({
+					map: this.map,
+					icon: park.status == 'Unoccupied' ? this.icons.unoccupiedPark : this.icons.presentPark,
+					position: {
+						lat: parseFloat(park.location.lattitude),
+						lng: parseFloat(park.location.longitude),
+					},
+					title: `Bay ${park.bay_id}`,
+				});
+
+				marker.status = park.status;
+				marker.bayId = park.bay_id;
+				marker.restrictions = park.restrictions;
+
+				marker.addListener('click', this.parkCallback());
+
+				this.markers.parks.push(marker);
+			});
+		});
+	}
+
 	ngAfterViewInit() {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(position => {
-				var mePos = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				};
-				
-				this.map = new google.maps.Map(this.mapView.nativeElement, {
-					center: mePos,
-					styles: googleMapStyles,
-					zoom: 14,
-					streetViewControl: false,
-				});
-
-				this.markers.me = new google.maps.Marker({
-					position: mePos,
-					title: 'Your Current Position',
-					map: this.map,
-					icon: this.icons.me,
-				});
-
-				this.markers.pin = new google.maps.Marker({
-					position: null,
-					map: this.map,
-					title: 'Searched Location',
-					icon: this.icons.pin,
-				});
-
-				this.infoWindow = new google.maps.InfoWindow();
-
-				// this.markers.parks.push(new google.maps.Marker({
-				// 	map: this.map,
-				// 	icon: this.icons.park,
-				// 	position: {
-				// 		lat: -38.1851821,
-				// 		lng: 144.3153567,
-				// 	},
-				// 	title: 'Park 01',
-				// }));
+		this.locationService.getPosition(position => {
+			var mePos = {
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			};
+			
+			this.map = new google.maps.Map(this.mapView.nativeElement, {
+				center: mePos,
+				styles: googleMapStyles,
+				zoom: 17,
+				streetViewControl: false,
 			});
 
-			navigator.geolocation.watchPosition(position => {
-				this.markers.me.setPosition({
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				});
+			this.markers.me = new google.maps.Marker({
+				position: mePos,
+				title: 'Your Current Position',
+				map: this.map,
+				icon: this.icons.me,
 			});
-		}
+
+			this.markers.pin = new google.maps.Marker({
+				position: null,
+				map: this.map,
+				title: 'Searched Location',
+				icon: this.icons.pin,
+			});
+
+			this.infoWindow = new google.maps.InfoWindow();
+		});
+
+		this.locationService.watchPosition(position => {
+			this.markers.me.setPosition({
+				lat: position.coords.latitude,
+				lng: position.coords.longitude,
+			});
+		});
 	}
 
 	parkCallback() {
@@ -228,20 +229,15 @@ export class ResultsCmpt implements OnInit, AfterViewInit {
 					<table class="park-modal-attributes">
 						<tbody>
 							<tr>
-								<th>Rate</th>
-								<td>$500 per hour</td>
-							</tr>
-							<tr>
-								<th>Data</th>
-								<td>${JSON.stringify(marker.restrictions)}</td>
-							</tr>
-							<tr>
 								<th>Restrictions</th>
-								<td>Disabled Only</td>
+								<td>${marker.restrictionsToText()}</td>
 							</tr>
+							<tr>
+								<th>Ticketed</th>
+								<td>No</td>
 							<tr>
 								<th>Status</th>
-								<td>Unoccupied</td>
+								<td>${marker.status}</td>
 							</tr>
 						</tbody>
 					</table>

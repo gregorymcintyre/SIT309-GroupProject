@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutGap="20px">
 	<div fxFlex="1 1 auto">
 		<mat-form-field class="full-width-field" color="accent">
-			<input matInput placeholder="Search for a street, city or place" type="text" (keyup)="updateSuggestions($event.target)" [matAutocomplete]="addressAuto">
+			<input matInput #fieldQuery placeholder="Search for a street, city or place" type="text" (keyup)="updateSuggestions($event.target)" [matAutocomplete]="addressAuto">
 		</mat-form-field>
 		<mat-autocomplete #addressAuto="matAutocomplete" (optionSelected)="selectPrediction($event)" [displayWith]="displayPrediction">
 			<mat-option *ngFor="let prediction of placeSuggestions" [value]="prediction">

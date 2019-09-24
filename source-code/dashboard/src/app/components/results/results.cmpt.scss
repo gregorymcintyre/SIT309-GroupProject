@@ -17,6 +17,14 @@
 		}
 	}
 
+	.button-small {
+		height:32px;
+		line-height:32px;
+		position:relative;
+		margin-right:6px;
+		top:-4px;
+	}
+
 	.view-selector {
 		flex:0 0 auto;
 		position:relative;

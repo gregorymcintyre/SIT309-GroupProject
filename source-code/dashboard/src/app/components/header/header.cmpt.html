@@ -5,4 +5,3 @@
 		<button *ngFor="let menuItem of menuItems" mat-button [routerLink]="'/' + menuItem.endpoint" [disabled]="onEndpoint(menuItem.endpoint)">{{menuItem.name}}</button>
 	</span>
 </mat-toolbar>
-{{params | json}}

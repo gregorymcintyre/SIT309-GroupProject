@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	</mat-card-content>
-	<div class="spinner-overlay" *ngIf="searchParams.locality == null && currentWeather != null">
+	<div class="spinner-overlay" *ngIf="loadingWeather">
 		<mat-spinner diameter="24"></mat-spinner>
 	</div>
 </mat-card>

@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {trigger, state, animate, transition, style, group} from '@angular/animations';
 import {} from 'googlemaps';
 
 
-import {SearchService} from './../../services';
+import {SearchService, LocationService} from './../../services';
 
 @Component({
 	selector: 'search',
@@ -35,6 +35,8 @@ import {SearchService} from './../../services';
 })
 
 export class SearchCmpt implements OnInit {
+	@ViewChild('fieldQuery', {static: false}) fieldQuery: ElementRef;
+
 	public selectedPrediction: google.maps.places.QueryAutocompletePrediction;
 	public placeSuggestions: google.maps.places.QueryAutocompletePrediction[] = [];
 	public showAdvancedSearch: boolean = false;
@@ -45,7 +47,7 @@ export class SearchCmpt implements OnInit {
 
 	autocompleteService: google.maps.places.AutocompleteService;
 
-	constructor (private searchService: SearchService) {
+	constructor (private searchService: SearchService, private locationService: LocationService) {
 		this.autocompleteService = new google.maps.places.AutocompleteService();
 	}
 
@@ -56,12 +58,13 @@ export class SearchCmpt implements OnInit {
 
 	useUserLocation() {
 		var geocoder = new google.maps.Geocoder();
+		this.fieldQuery.nativeElement.value = '';
 
 		console.log('Checking if geolocation is enabled');
 		if (navigator.geolocation) {
 			console.log('Geolocation is enabled');
 			this.gettingUserLocation = true;
-			navigator.geolocation.getCurrentPosition(position => {
+			this.locationService.getPosition(position => {
 				console.log('Retreived geolocation position');
 				var coords = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -71,6 +74,7 @@ export class SearchCmpt implements OnInit {
 					this.usingUserLocation = true;
 					this.gettingUserLocation = false;
 					this.searchService.setParams({
+						query: '',
 						coords: coords,
 						locality: this.searchService.getLocality(results[0].address_components),
 					});
@@ -105,6 +109,7 @@ export class SearchCmpt implements OnInit {
 	}
 
 	clearSearch() {
+		this.fieldQuery.nativeElement.value = '';
 		this.searchService.setParams({}, true);
 	}
 
