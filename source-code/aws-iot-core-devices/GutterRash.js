@@ -1,9 +1,13 @@
 const awsIot = require('aws-iot-device-sdk');
 const fetch = require("node-fetch");
+const express = require('express')
+const app = express()
+const port = 3000
 
 //modify bay variables here
 
 var bay = [];
+var tempBay = [];
 var bay1 = bay.push({"bayID": 951, "status": undefined, "restriction_duration": undefined });
 var bay2 = bay.push({"bayID": 6919, "status": undefined, "restriction_duration": undefined });
 var bay3 = bay.push({"bayID": 6920, "status": undefined, "restriction_duration": undefined });
@@ -14,6 +18,7 @@ var bay7 = bay.push({"bayID": 4739, "status": undefined, "restriction_duration":
 var bay8 = bay.push({"bayID": 4745, "status": undefined, "restriction_duration": undefined });
 var bay9 = bay.push({"bayID": 4750, "status": undefined, "restriction_duration": undefined });
 var bay10 = bay.push({"bayID": 6834, "status": undefined, "restriction_duration": undefined });
+var changes = true;
 
 //console.log(bay[0].bayID);
 
@@ -113,6 +118,8 @@ const parking11 = awsIot.device({
 
 var connectCount = 0;	//to simplify connections in the future
  
+app.listen(port, () => console.log(`aws-iot-core-devices listening on port ${port}!`))
+ 
 parking1.on('connect', function() {
 	isConnectedParking1=true;
 	connectCount++;
@@ -211,15 +218,24 @@ let timeout=null;
 	//function publishData (bay1, bay2, bay3, bay4, bay5, bay6, bay7, bay8, bay9, bay10) {
 	function publishData (bay) {
 		
-		console.log('Publish initiated');
+		if (changes){
 		
-		for(var i = 0 ; i < 10 ; i++){
-			try{
-				parking1.publish('parking' + (i+1), '{"bayID": ' + bay[i].bayID + ', "status": ' + bay[i].status + ', "restriction_duration": '+ bay[i].restriction_duration +'}');
-				//console.log ('parking' + (i+1) + ': message published');
-			}catch(err){
-				console.log('parking'+ (i+1) + ': ' + err.name);
+			console.log('Publish initiated');
+			
+			for(var i = 0 ; i < 10 ; i++){
+				try{
+					parking1.publish('parking' + (i+1), '{"bayID": ' + bay[i].bayID + ', "status": ' + bay[i].status + ', "restriction_duration": '+ bay[i].restriction_duration +'}');
+					//console.log ('parking' + (i+1) + ': message published');
+
+				}catch(err){
+					console.log('parking'+ (i+1) + ': ' + err.name);
+				}
 			}
+			
+			changes = false;
+			
+		} else{
+			console.log("No publish required, Changes : " + changes);
 		}
 	}
 
@@ -228,6 +244,8 @@ let timeout=null;
 		
 		var currentDate = new Date();
 		var currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();		//for comparrison with pulled times
+		
+		if (tempBay != bay) tempBay = bay;
 		
 		/*
 		for ( var i = 0 ; i < 5 ; i++ ){
@@ -762,6 +780,25 @@ let timeout=null;
 			.catch(error => {
 				console.log("Restriction Info: " + error);
 			})
+			
+		
+		if (
+			   tempBay[0].status != bay[0].status
+			|| tempBay[1].status != bay[1].status
+			|| tempBay[2].status != bay[2].status
+			|| tempBay[3].status != bay[3].status
+			|| tempBay[4].status != bay[4].status
+			|| tempBay[5].status != bay[5].status
+			|| tempBay[6].status != bay[6].status
+			|| tempBay[7].status != bay[7].status
+			|| tempBay[8].status != bay[8].status
+			|| tempBay[9].status != bay[9].status
+			
+			){
+				
+			change = true;
+		}
+		
 	}
 	
 	
@@ -769,6 +806,7 @@ let timeout=null;
 		function(){
 			queryBays(bay);
 			publishData(bay);
+			app.get('/', (req, res) => res.send(bay))
 		}, 10000		//10 seconds (testing)
 		//}, 120000		//2 Minutes
 	);
