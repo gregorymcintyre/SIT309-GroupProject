@@ -133,7 +133,10 @@ Example Response (Of 1 parking bay):
 ```
 
 ## IOT Devices
-talk about more shit
+
+Amazon webservices IOT was used to show IOT activity
+
+![alt text](awsiot.jpg)
 
 
 
