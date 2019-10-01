@@ -2,7 +2,7 @@ const awsIot = require('aws-iot-device-sdk');
 const fetch = require("node-fetch");
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 5000
 
 //modify bay variables here
 
